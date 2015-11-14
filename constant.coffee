@@ -1,11 +1,13 @@
-class Key
+global = window
+
+class global.Key
   @up = 38
   @down = 40
   @left = 38
   @rigth = 39
   @space = 32
 
-class Chip
+class global.Chip
   @road = 1
   @wall = 2
   @player = 3
