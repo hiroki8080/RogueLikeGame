@@ -1,4 +1,4 @@
 RougeLikeGame
 =============
 
-\('o')/
+\('o')/ < Let's make a game!!
