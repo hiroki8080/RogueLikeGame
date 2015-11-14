@@ -1,6 +1,7 @@
 # 必要なAPIを仮実装
 getTipWithCoordinates(x, y) ->
   Tip.road
+# 宝箱というアイテムを処理するAPI
 
 class Key
   @up = 38
@@ -13,7 +14,7 @@ class Tip
   @road = 1
   @wall = 2
   @player = 3
-  @treasure_chest = 4
+  @treasureChest = 4
 
 class Character
   constructor: (x, y) ->
@@ -55,5 +56,14 @@ class Character
         return true
       else
         return false
+  isEvent: (x, y) ->
+    tipNo = getTipWithCoordinates(x, y)
+    switch tipNo
+      when Tip.treasureChest
+        searchObject(Tip.treasureChest)
+  searchObject: (tipNo) ->
+    switch tipNo
+      when Tip.treasureChest
+        console.log("open chest")
   openMenu: ->
     console.log("openMenu")
