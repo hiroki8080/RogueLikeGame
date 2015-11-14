@@ -1,25 +1,8 @@
 # 必要なAPIを仮実装
 getTipWithCoordinates(x, y) ->
-  Tip.road
+  Chip.road
 # 宝箱というアイテムを処理するAPI
 
-class Key
-  @up = 38
-  @down = 40
-  @left = 38
-  @rigth = 39
-  @space = 32
-
-class Tip
-  @road = 1
-  @wall = 2
-  @player = 3
-  @treasureChest = 4
-  @enemy1 = 5
-  @enemy2 = 6
-  @enemy3 = 7
-  @trap = 8
-  @enemies = [@enemy1, @enemy2, @enemy3]
 
 class Character
   constructor: (options) ->
@@ -60,22 +43,22 @@ class Character
   canToMove: (x, y) ->
     tipNo = getTipWithCoordinates(x, y)
     switch tipNo
-      when Tip.road
+      when Chip.road
         return true
       else
         return false
   isEvent: (x, y) ->
     tipNo = getTipWithCoordinates(x, y)
     switch tipNo
-      when Tip.treasureChest
-        searchObject(Tip.treasureChest)
+      when Chip.treasureChest
+        searchObject(Chip.treasureChest)
     if (@enemies.indexOf(tipNo) == -1)
       attack()
   attack: () ->
     console.log("player attacks")
   searchObject: (tipNo) ->
     switch tipNo
-      when Tip.treasureChest
+      when Chip.treasureChest
         console.log("open chest")
   openMenu: ->
     console.log("openMenu")
