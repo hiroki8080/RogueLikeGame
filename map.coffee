@@ -4,7 +4,7 @@ class Dungeon
 
   init: ()->
     widthArray = [1..@size].map (i) -> Chip.wall
-    @dungeonArray = [1..@size].map (i) -> widthArray    
+    @dungeonArray = [1..@size].map (i) -> widthArray
 
   getChip: (x, y)->
     @dungeonArray[x][y]
