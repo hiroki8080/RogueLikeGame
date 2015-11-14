@@ -15,11 +15,19 @@ class Tip
   @wall = 2
   @player = 3
   @treasureChest = 4
+  @enemy1 = 5
+  @enemy2 = 6
+  @enemy3 = 7
+  @trap = 8
+  @enemies = [@enemy1, @enemy2, @enemy3]
 
 class Character
-  constructor: (x, y) ->
-    @x = x
-    @y = y
+  constructor: (options) ->
+    @x = options.x
+    @y = options.y
+    @hp = options.hp
+    @attack = options.attack
+    @deffense = options.deffense
     window.document.keydown(bindEvents)
   bindEvents: (e) ->
     switch e.keyCode
@@ -61,6 +69,10 @@ class Character
     switch tipNo
       when Tip.treasureChest
         searchObject(Tip.treasureChest)
+    if (@enemies.indexOf(tipNo) == -1)
+      attack()
+  attack: () ->
+    console.log("player attacks")
   searchObject: (tipNo) ->
     switch tipNo
       when Tip.treasureChest
