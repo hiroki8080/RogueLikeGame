@@ -6,7 +6,8 @@ class Dungeon
     widthArray = [1..@size].map (i) -> Chip.wall
     @dungeonArray = [1..@size].map (i) -> widthArray    
 
-  getField: (x, y)->
+  getChip: (x, y)->
     @dungeonArray[x][y]
 
-console.log(new Dungeon(64).getField(1))
+
+console.log(new Dungeon(64).getChip(1, 1))
