@@ -1,0 +1,16 @@
+{
+  "name": "roguelikegame",
+  "version": "0.0.1",
+  "description": "\\('o')/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hiroki8080/RogueLikeGame.git"
+  },
+  "scripts": {
+    "build": "$(npm bin)/coffee -c code.coffee",
+    "aaa": "echo 'hoge'"
+  },
+  "devDependencies": {
+    "coffee-script": "*"
+  }
+}
