@@ -1,8 +1,7 @@
 # 必要なAPIを仮実装
-getTipWithCoordinates(x, y) ->
+getTipWithCoordinates = (x, y) ->
   Chip.road
 # 宝箱というアイテムを処理するAPI
-
 
 class Character
   constructor: (options) ->
