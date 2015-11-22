@@ -13,13 +13,12 @@ class Dungeon
     @mapData
 
   getAroundPoints: (point, scale=1)->
-    side = 1 + 2 * scale
-    half = Math.floor(side / 2)
+    half = scale
     xBase = point.x - half
     yBase = point.y - half
 
-    points = for y in [0...tmp]
-              for x in [0...tmp]
+    points = for y in [0...2 * scale]
+              for x in [0...2 * scale]
                 xx = xBase + x
                 yy = yBase + y
                 if (yy >= 0 and xx >= 0) and (yy < 64 and xx < 64)
