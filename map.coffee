@@ -20,7 +20,12 @@ class Dungeon
 
     points = for y in [0...tmp]
                for x in [0...tmp]
-                 @getChip(xBase + x, yBase + y)
+                 xx = xBase + x
+                 yy = yBase + y
+                 if (yy >= 0 and xx >= 0) or (yy < 64 and xx < 64)
+                   @getChip(xBase + x, yBase + y)
+                 else
+                   - 1
 
 dungeon = new Dungeon(64)
 console.log(dungeon.getMapData())
