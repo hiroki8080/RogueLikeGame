@@ -4,10 +4,13 @@ class Dungeon
 
   init: ()->
     widthArray = [1..@size].map (i) -> Chip.wall
-    @dungeonArray = [1..@size].map (i) -> widthArray
+    @mapData = [1..@size].map (i) -> widthArray
 
   getChip: (x, y)->
     @dungeonArray[x][y]
 
-
-console.log(new Dungeon(64).getChip(1, 1))
+  getMapData: ()->
+    @mapData
+    
+dungeon = new Dungeon(64)
+console.log(dungeon.getMapData())
