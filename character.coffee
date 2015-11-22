@@ -24,7 +24,6 @@ class Character
         @moveRight(1)
       when Key.space
         @openMenu(1)
-    @moveRight(1)
     @logStatus()
   moveUp: (distance) ->
     toY = @y - distance
