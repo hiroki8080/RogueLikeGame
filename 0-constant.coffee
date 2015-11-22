@@ -3,8 +3,8 @@ global = window
 class global.Key
   @up = 38
   @down = 40
-  @left = 38
-  @rigth = 39
+  @left = 37
+  @right = 39
   @space = 32
 
 class global.Chip
