@@ -83,7 +83,7 @@ class Character
     for y in yList
       rowPoints = []
       for x in xList
-        rowPoints.push({x: x, y: y})
+        rowPoints.push(new Point(x, y))
       columnPoints.push(rowPoints)
     columnPoints
   openMenu: ->
