@@ -39,7 +39,6 @@ class Character
     if @canToMove(toX, @y)
       @x = toX
   moveRight: (distance) ->
-    console.log "moveRight"
     toX = @x + distance
     if @canToMove(toX, @y)
       @x = toX
