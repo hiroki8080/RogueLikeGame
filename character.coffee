@@ -12,7 +12,13 @@ class Character
     @deffense = options.deffense || 1
     window.addEventListener('keydown', @bindEvent, true)
   bindEvent: (e) =>
+    @move(e.keyCode)
     switch e.keyCode
+      when Key.space
+        @openMenu(1)
+    @logStatus()
+  move: (keyCode) ->
+    switch keyCode
       when Key.up
         @moveUp(1)
       when Key.down
@@ -21,9 +27,6 @@ class Character
         @moveLeft(1)
       when Key.right
         @moveRight(1)
-      when Key.space
-        @openMenu(1)
-    @logStatus()
   moveUp: (distance) ->
     toY = @point.y - distance
     if @canToMove(@point.x, toY)
@@ -40,6 +43,11 @@ class Character
     toX = @point.x + distance
     if @canToMove(toX, @point.x)
       @point.x = toX
+  moveRandom: ->
+    # 0~10の乱数
+    directions = [Key.up, Key.down, Key.left, Key.right]
+    rand = Math.floor(Math.random() * directions.length)
+    @move(directions[rand])
   # 座標にあるチップが移動可能かを判定
   canToMove: (point) ->
     tipNo = getTipWithCoordinates(point.x, point.y)
