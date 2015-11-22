@@ -1,0 +1,14 @@
+body {
+  overflow-y: hidden;
+}
+#main {
+  z-index: -1;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+#status {
+  z-index: 99;
+  top: 0;
+  left: 0;
+}
