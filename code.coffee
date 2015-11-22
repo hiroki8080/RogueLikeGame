@@ -3,12 +3,24 @@ console.log "\('o')/"
 class App
 
   constructor: ->
+    @statusCanvas = document.getElementById 'status'
     @canvas = document.getElementById 'main'
     @ctx = @canvas.getContext '2d'
+    @statusCtx = @statusCanvas.getContext '2d'
     @dungeon = new Dungeon(64)
+    options = {name: "トルネコ", point: new Point(1, 10)}
+    @player = new Character(options)
     @playerImg = new Image()
     @playerImg.src = 'images/hero.png'
+    statusCanvasInit @statusCanvas, @statusCtx
     canvasInit @canvas, @ctx
+
+  statusCanvasInit = (canvas, ctx)->
+    canvas.width = 660
+    canvas.height = 30
+    ctx.fillStyle = 'rgb(192, 80, 77)'
+    ctx.fillRect(0,0,660,30)
+    ctx.fill()
 
   canvasInit = (canvas, ctx)->
     canvas.width = 660
@@ -17,7 +29,10 @@ class App
     ctx.fillRect(0,0,660,660)
     ctx.fill()
 
-  loop: ->
+  loop: =>
+    requestAnimationFrame @loop
+    @printStatus()
+    console.log "loop"
 #    mapData = @dungeon.getMapData()
     mapData = [
       [2,2,2,2,2,2,2,2,2,2,2],
@@ -75,7 +90,13 @@ class App
       @ctx.drawImage(@playerImg, x*60, y*60)
     @playerImg.src = 'images/hero.png'
 
-  printEnemy = (x,y)->
+  printEnemy: (x,y)->
+
+  printStatus: ->
+    @statusCtx.clearRect(0, 0, 660, 60)
+    @statusCtx.strokeText("HP:" + @player.hp, 0, 10)
+    @statusCtx.strokeText("X:" + @player.point.x, 100, 10)
+    @statusCtx.strokeText("Y:" + @player.point.y, 200, 10)
 
 init =->
   window.rogue = new App()
