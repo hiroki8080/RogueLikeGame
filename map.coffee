@@ -16,9 +16,10 @@ class Dungeon
     half = scale
     xBase = point.x - half
     yBase = point.y - half
+    doubleScale = 2 * scale
 
-    points = for y in [0...2 * scale]
-              for x in [0...2 * scale]
+    points = for y in [0...doubleScale]
+              for x in [0...doubleScale]
                 xx = xBase + x
                 yy = yBase + y
                 if (yy >= 0 and xx >= 0) and (yy < 64 and xx < 64)
