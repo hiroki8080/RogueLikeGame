@@ -62,6 +62,31 @@ class Character
     switch tipNo
       when Chip.treasureChest
         console.log("open chest")
+  # 自分の周囲8マスの座標を取得
+  # 戻り値は下記の配列
+  # [
+  #  [x, y],   [x, y],    [x, y]
+  #  [x, y], 自位置はなし [x, y]
+  #  [x, y],   [x, y],    [x, y]
+  # ]
+  getAroundPoints: ->
+    leftX = @x - 1
+    centerX = @x
+    rightX = @x + 1
+    xList = [leftX, centerX, rightX]
+
+    upY = @y - 1
+    centerY = @y
+    downY = @y + 1
+    yList = [upY, centerY, downY]
+
+    columnPoints = []
+    for y in yList
+      rowPoints = []
+      for x in xList
+        rowPoints.push({x: x, y: y})
+      columnPoints.push(rowPoints)
+    columnPoints
   openMenu: ->
     console.log("openMenu")
   logStatus: ->
