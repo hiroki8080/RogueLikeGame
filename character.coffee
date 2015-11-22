@@ -5,8 +5,7 @@ getTipWithCoordinates = (x, y) ->
 
 class Character
   constructor: (options) ->
-    @x = options.x || 0
-    @y = options.y || 0
+    @point = options.point || new Point(0, 0)
     @name = options.name || "no name"
     @hp = options.hp || 20
     @attack = options.attack || 3
@@ -26,31 +25,31 @@ class Character
         @openMenu(1)
     @logStatus()
   moveUp: (distance) ->
-    toY = @y - distance
-    if @canToMove(@x, toY)
-      @y = toY
+    toY = @point.y - distance
+    if @canToMove(@point.x, toY)
+      @point.y = toY
   moveDown: (distance) ->
-    toY = @y + distance
-    if @canToMove(@x, toY)
-      @y = toY
+    toY = @point.y + distance
+    if @canToMove(@point.x, toY)
+      @point.y = toY
   moveLeft: (distance) ->
-    toX = @x - distance
-    if @canToMove(toX, @y)
-      @x = toX
+    toX = @point.x - distance
+    if @canToMove(toX, @point.x)
+      @point.x = toX
   moveRight: (distance) ->
-    toX = @x + distance
-    if @canToMove(toX, @y)
-      @x = toX
+    toX = @point.x + distance
+    if @canToMove(toX, @point.x)
+      @point.x = toX
   # 座標にあるチップが移動可能かを判定
-  canToMove: (x, y) ->
-    tipNo = getTipWithCoordinates(x, y)
+  canToMove: (point) ->
+    tipNo = getTipWithCoordinates(point.x, point.y)
     switch tipNo
       when Chip.road
         return true
       else
         return false
-  isEvent: (x, y) ->
-    tipNo = getTipWithCoordinates(x, y)
+  isEvent: (point) ->
+    tipNo = getTipWithCoordinates(point.x, point.y)
     switch tipNo
       when Chip.treasureChest
         searchObject(Chip.treasureChest)
@@ -70,27 +69,27 @@ class Character
   #  [x, y],   [x, y],    [x, y]
   # ]
   getAroundPoints: ->
-    leftX = @x - 1
-    centerX = @x
-    rightX = @x + 1
+    leftX = @point.x - 1
+    centerX = @point.x
+    rightX = @point.x + 1
     xList = [leftX, centerX, rightX]
 
-    upY = @y - 1
-    centerY = @y
-    downY = @y + 1
+    upY = @point.y - 1
+    centerY = @point.y
+    downY = @point.y + 1
     yList = [upY, centerY, downY]
 
     columnPoints = []
     for y in yList
       rowPoints = []
       for x in xList
-        rowPoints.push({x: x, y: y})
+        rowPoints.push(new Point(x, y))
       columnPoints.push(rowPoints)
     columnPoints
   openMenu: ->
     console.log("openMenu")
   logStatus: ->
-    console.log "name: #{@name}\nx: #{@x}, y: #{@y}\nhp: #{@hp}"
+    console.log "name: #{@name}\nx: #{@point.x}, y: #{@point.y}\nhp: #{@hp}"
 
-options = {name: "トルネコ", x: 1, y: 10}
+options = {name: "トルネコ", point: new Point(1, 10)}
 plyer1 = new Character(options)

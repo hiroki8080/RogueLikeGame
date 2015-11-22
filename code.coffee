@@ -6,6 +6,17 @@ class App
     @canvas = document.getElementById 'main'
     @ctx = @canvas.getContext '2d'
     @dungeon = new Dungeon(64)
+    img = new Image()
+    img.onload = ->
+      @ctx.drawImage(img, 0, 0)
+    @wallImg = new Image()
+    @wallImg.onload = ->
+      @ctx.drawImage(@wallImg, 60, 60)
+    @wallImg.src = 'images/hero.png'
+    @roadImg = new Image();
+    @roadImg.src = 'images/hero.png'
+    @playerImg = new Image()
+    @playerImg.src = 'images/hero.png'
     canvasInit @canvas, @ctx
 
   canvasInit = (canvas, ctx)->
@@ -20,40 +31,38 @@ class App
     @printMap mapData
 
   printMap: (mapData)->
-    console.log @ctx
     for row,x in mapData
       for data,y in row
         switch data
           when 1
-            @printWall x, y, @ctx
+            @printRoad x, y
           when 2
-            @printWall x, y, @ctx
+            @printWall x, y
           when 3
-            @printWall x, y, @ctx
+            @printPlayer x, y
           when 4
-            @printWall x, y, @ctx
+            @printWall x, y
           when 5
-            @printWall x, y, @ctx
+            @printWall x, y
           when 6
-            @printWall x, y, @ctx
+            @printWall x, y
           when 7
-            @printWall x, y, @ctx
+            @printWall x, y
           when 8
-            @printWall x, y, @ctx
+            @printWall x, y
           else
-            @printWall x, y, @ctx
+            @printWall x, y
 
-  printWall: (x,y,ctx)->
-    console.log 'print wall'
-    ctx.strokeText('2', x*10, y*10)
+  printWall: (x,y)->
+      @ctx.drawImage(@wallImg, x*60, y*60)
 
-  printRoad = (x,y,ctx)->
+  printRoad: (x,y)->
+      @ctx.drawImage(@roadImg, x*60, y*60)
 
+  printPlayer: (x,y)->
+      @ctx.drawImage(@playerImg, x*60, y*60)
 
-  printPlayer = (x,y,ctx)->
-
-
-  printEnemy = (x,y,ctx)->
+  printEnemy = (x,y)->
 
 init =->
   window.rogue = new App()
