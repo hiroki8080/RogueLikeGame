@@ -3,7 +3,7 @@ global = window
 class global.Key
   @up = 38
   @down = 40
-  @left = 38
+  @left = 37
   @rigth = 39
   @space = 32
 
