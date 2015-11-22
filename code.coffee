@@ -24,7 +24,21 @@ class App
     for row,x in mapData
       for data,y in row
         switch data
+          when 1
+            @printWall x, y, @ctx
           when 2
+            @printWall x, y, @ctx
+          when 3
+            @printWall x, y, @ctx
+          when 4
+            @printWall x, y, @ctx
+          when 5
+            @printWall x, y, @ctx
+          when 6
+            @printWall x, y, @ctx
+          when 7
+            @printWall x, y, @ctx
+          when 8
             @printWall x, y, @ctx
           else
             @printWall x, y, @ctx
