@@ -5,34 +5,41 @@ class App
   constructor: ->
     @canvas = document.getElementById 'main'
     @ctx = @canvas.getContext '2d'
-    @dungeon = new Dungeon()
+    @dungeon = new Dungeon(64)
     canvasInit @canvas, @ctx
 
   canvasInit = (canvas, ctx)->
-    canvas.width = 640
-    canvas.height = 640
+    canvas.width = 660
+    canvas.height = 660
     ctx.fillStyle = 'rgb(192, 80, 77)'
-    ctx.fillRect(0,0,640,640)
+    ctx.fillRect(0,0,660,660)
     ctx.fill()
 
   loop: ->
-    console.log "loop"
-    mapData = @dungeon.getMapData
-    console.log mapData
-    printMap mapData
+    mapData = @dungeon.getMapData()
+    @printMap mapData
 
-  printMap = (mapData)->
-    for x in mapData
-      for y in x
-        console.log 'map' + mapData[x][y]
+  printMap: (mapData)->
+    console.log @ctx
+    for row,x in mapData
+      for data,y in row
+        switch data
+          when 2
+            @printWall x, y, @ctx
+          else
+            @printWall x, y, @ctx
 
-  printWall: ->
+  printWall: (x,y,ctx)->
+    console.log 'print wall'
+    ctx.strokeText('2', x*10, y*10)
 
-  printRoad: ->
+  printRoad = (x,y,ctx)->
 
-  printPlayer: ->
 
-  printEnemy: ->
+  printPlayer = (x,y,ctx)->
+
+
+  printEnemy = (x,y,ctx)->
 
 init =->
   window.rogue = new App()
