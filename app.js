@@ -73,23 +73,25 @@
     }
 
     Character.prototype.bindEvent = function(e) {
+      this.move(e.keyCode);
       switch (e.keyCode) {
-        case Key.up:
-          this.moveUp(1);
-          break;
-        case Key.down:
-          this.moveDown(1);
-          break;
-        case Key.left:
-          this.moveLeft(1);
-          break;
-        case Key.right:
-          this.moveRight(1);
-          break;
         case Key.space:
           this.openMenu(1);
       }
       return this.logStatus();
+    };
+
+    Character.prototype.move = function(keyCode) {
+      switch (keyCode) {
+        case Key.up:
+          return this.moveUp(1);
+        case Key.down:
+          return this.moveDown(1);
+        case Key.left:
+          return this.moveLeft(1);
+        case Key.right:
+          return this.moveRight(1);
+      }
     };
 
     Character.prototype.moveUp = function(distance) {
@@ -122,6 +124,13 @@
       if (this.canToMove(toX, this.point.x)) {
         return this.point.x = toX;
       }
+    };
+
+    Character.prototype.moveRandom = function() {
+      var directions, rand;
+      directions = [Key.up, Key.down, Key.left, Key.right];
+      rand = Math.floor(Math.random() * directions.length);
+      return this.move(directions[rand]);
     };
 
     Character.prototype.canToMove = function(point) {
@@ -206,21 +215,9 @@
     var canvasInit, printEnemy;
 
     function App() {
-      var img;
       this.canvas = document.getElementById('main');
       this.ctx = this.canvas.getContext('2d');
       this.dungeon = new Dungeon(64);
-      img = new Image();
-      img.onload = function() {
-        return this.ctx.drawImage(img, 0, 0);
-      };
-      this.wallImg = new Image();
-      this.wallImg.onload = function() {
-        return this.ctx.drawImage(this.wallImg, 60, 60);
-      };
-      this.wallImg.src = 'images/hero.png';
-      this.roadImg = new Image();
-      this.roadImg.src = 'images/hero.png';
       this.playerImg = new Image();
       this.playerImg.src = 'images/hero.png';
       canvasInit(this.canvas, this.ctx);
@@ -236,7 +233,7 @@
 
     App.prototype.loop = function() {
       var mapData;
-      mapData = this.dungeon.getMapData();
+      mapData = [[2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2], [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2], [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2], [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2], [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2], [2, 1, 1, 1, 1, 3, 1, 1, 1, 1, 2], [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2], [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2], [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2], [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2], [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]];
       return this.printMap(mapData);
     };
 
@@ -286,15 +283,33 @@
     };
 
     App.prototype.printWall = function(x, y) {
-      return this.ctx.drawImage(this.wallImg, x * 60, y * 60);
+      this.wallImg = new Image();
+      this.wallImg.onload = (function(_this) {
+        return function() {
+          return _this.ctx.drawImage(_this.wallImg, x * 60, y * 60);
+        };
+      })(this);
+      return this.wallImg.src = 'images/wall.png';
     };
 
     App.prototype.printRoad = function(x, y) {
-      return this.ctx.drawImage(this.roadImg, x * 60, y * 60);
+      this.roadImg = new Image();
+      this.roadImg.onload = (function(_this) {
+        return function() {
+          return _this.ctx.drawImage(_this.roadImg, x * 60, y * 60);
+        };
+      })(this);
+      return this.roadImg.src = 'images/floor.png';
     };
 
     App.prototype.printPlayer = function(x, y) {
-      return this.ctx.drawImage(this.playerImg, x * 60, y * 60);
+      this.playerImg = new Image();
+      this.playerImg.onload = (function(_this) {
+        return function() {
+          return _this.ctx.drawImage(_this.playerImg, x * 60, y * 60);
+        };
+      })(this);
+      return this.playerImg.src = 'images/hero.png';
     };
 
     printEnemy = function(x, y) {};

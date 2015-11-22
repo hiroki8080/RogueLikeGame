@@ -6,15 +6,6 @@ class App
     @canvas = document.getElementById 'main'
     @ctx = @canvas.getContext '2d'
     @dungeon = new Dungeon(64)
-    img = new Image()
-    img.onload = ->
-      @ctx.drawImage(img, 0, 0)
-    @wallImg = new Image()
-    @wallImg.onload = ->
-      @ctx.drawImage(@wallImg, 60, 60)
-    @wallImg.src = 'images/hero.png'
-    @roadImg = new Image();
-    @roadImg.src = 'images/hero.png'
     @playerImg = new Image()
     @playerImg.src = 'images/hero.png'
     canvasInit @canvas, @ctx
@@ -27,7 +18,20 @@ class App
     ctx.fill()
 
   loop: ->
-    mapData = @dungeon.getMapData()
+#    mapData = @dungeon.getMapData()
+    mapData = [
+      [2,2,2,2,2,2,2,2,2,2,2],
+      [2,1,1,1,1,1,1,1,1,1,2],
+      [2,1,1,1,1,1,1,1,1,1,2],
+      [2,1,1,1,1,1,1,1,1,1,2],
+      [2,1,1,1,1,1,1,1,1,1,2],
+      [2,1,1,1,1,3,1,1,1,1,2],
+      [2,1,1,1,1,1,1,1,1,1,2],
+      [2,1,1,1,1,1,1,1,1,1,2],
+      [2,1,1,1,1,1,1,1,1,1,2],
+      [2,1,1,1,1,1,1,1,1,1,2],
+      [2,2,2,2,2,2,2,2,2,2,2],
+    ]
     @printMap mapData
 
   printMap: (mapData)->
@@ -54,13 +58,22 @@ class App
             @printWall x, y
 
   printWall: (x,y)->
+    @wallImg = new Image()
+    @wallImg.onload = =>
       @ctx.drawImage(@wallImg, x*60, y*60)
+    @wallImg.src = 'images/wall.png'
 
   printRoad: (x,y)->
+    @roadImg = new Image();
+    @roadImg.onload = =>
       @ctx.drawImage(@roadImg, x*60, y*60)
+    @roadImg.src = 'images/floor.png'
 
   printPlayer: (x,y)->
+    @playerImg = new Image();
+    @playerImg.onload = =>
       @ctx.drawImage(@playerImg, x*60, y*60)
+    @playerImg.src = 'images/hero.png'
 
   printEnemy = (x,y)->
 
