@@ -41,6 +41,7 @@ class Character
     toX = @x + distance
     if @canToMove(toX, @y)
       @x = toX
+  # 座標にあるチップが移動可能かを判定
   canToMove: (x, y) ->
     tipNo = getTipWithCoordinates(x, y)
     switch tipNo
