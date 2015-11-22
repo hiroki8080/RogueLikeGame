@@ -416,7 +416,7 @@
     };
 
     Dungeon.prototype.getAroundPoints = function(point) {
-      var half, points, tmp, x, xBase, y, yBase;
+      var half, points, tmp, x, xBase, xx, y, yBase, yy;
       tmp = 11;
       half = Math.floor(tmp / 2);
       xBase = point.x - half;
@@ -429,7 +429,13 @@
             var k, ref1, results1;
             results1 = [];
             for (x = k = 0, ref1 = tmp; 0 <= ref1 ? k < ref1 : k > ref1; x = 0 <= ref1 ? ++k : --k) {
-              results1.push(this.getChip(xBase + x, yBase + y));
+              xx = xBase + x;
+              yy = yBase + y;
+              if (yy >= 0 && xx >= 0) {
+                results1.push(this.getChip(xBase + x, yBase + y));
+              } else {
+                results1.push(-1);
+              }
             }
             return results1;
           }).call(this));
@@ -446,9 +452,9 @@
 
   console.log(dungeon.getMapData());
 
-  p = new Point(6, 6);
+  p = new Point(0, 0);
 
-  console.log("around");
+  console.log("arround");
 
   console.log(dungeon.getAroundPoints(p));
 
