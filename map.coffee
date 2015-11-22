@@ -12,9 +12,9 @@ class Dungeon
   getMapData: ()->
     @mapData
 
-  getAroundPoints: (point)->
-    tmp = 11
-    half = Math.floor(tmp/2)
+  getAroundPoints: (point, scale=1)->
+    side = 1 + 2 * scale
+    half = Math.floor(side / 2)
     xBase = point.x - half
     yBase = point.y - half
 
