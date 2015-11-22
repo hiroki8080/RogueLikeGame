@@ -22,7 +22,7 @@ class Dungeon
                for x in [0...tmp]
                  xx = xBase + x
                  yy = yBase + y
-                 if (yy >= 0 and xx >= 0) or (yy < 64 and xx < 64)
+                 if (yy >= 0 and xx >= 0) and (yy < 64 and xx < 64)
                    @getChip(xBase + x, yBase + y)
                  else
                    - 1

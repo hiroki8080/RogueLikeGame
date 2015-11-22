@@ -431,7 +431,7 @@
             for (x = k = 0, ref1 = tmp; 0 <= ref1 ? k < ref1 : k > ref1; x = 0 <= ref1 ? ++k : --k) {
               xx = xBase + x;
               yy = yBase + y;
-              if ((yy >= 0 && xx >= 0) || (yy < 64 && xx < 64)) {
+              if ((yy >= 0 && xx >= 0) && (yy < 64 && xx < 64)) {
                 results1.push(this.getChip(xBase + x, yBase + y));
               } else {
                 results1.push(-1);
