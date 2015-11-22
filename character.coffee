@@ -10,6 +10,7 @@ class Character
     @hp = options.hp || 20
     @attack = options.attack || 3
     @deffense = options.deffense || 1
+    @type = options.type || Chip.enemy1
     window.addEventListener('keydown', @bindEvent, true)
   bindEvent: (e) =>
     @move(e.keyCode)
@@ -56,6 +57,16 @@ class Character
         return true
       else
         return false
+  isPlayer: ->
+    if @type == Chip.player
+      return true
+    else
+      return false
+  isEnemy: ->
+    if Chip.enemies.indexOf(@type) != -1
+      return true
+    else
+      return false
   isEvent: (point) ->
     tipNo = getTipWithCoordinates(point.x, point.y)
     switch tipNo
