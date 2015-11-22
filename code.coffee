@@ -9,10 +9,10 @@ class App
     canvasInit @canvas, @ctx
 
   canvasInit = (canvas, ctx)->
-    canvas.width = 500
-    canvas.height = 500
+    canvas.width = 640
+    canvas.height = 640
     ctx.fillStyle = 'rgb(192, 80, 77)'
-    ctx.fillRect(0,0,500,500)
+    ctx.fillRect(0,0,640,640)
     ctx.fill()
 
   loop: ->
@@ -25,6 +25,14 @@ class App
     for x in mapData
       for y in x
         console.log 'map' + mapData[x][y]
+
+  printWall: ->
+
+  printRoad: ->
+
+  printPlayer: ->
+
+  printEnemy: ->
 
 init =->
   window.rogue = new App()
