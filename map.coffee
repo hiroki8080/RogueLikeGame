@@ -7,10 +7,20 @@ class Dungeon
     @mapData = [1..@size].map (i) -> widthArray
 
   getChip: (x, y)->
-    @dungeonArray[x][y]
+    @mapData[x][y]
 
   getMapData: ()->
     @mapData
-    
+
+  getAroundPoints: (point)->
+    tmp = 11
+    half = Math.floor(tmp/2)
+    xBase = point.x - half
+    yBase = point.y - half
+
+    points = for y in [0...tmp]
+               for x in [0...tmp]
+                 @getChip(xBase + x, yBase + y)
+
 dungeon = new Dungeon(64)
 console.log(dungeon.getMapData())
