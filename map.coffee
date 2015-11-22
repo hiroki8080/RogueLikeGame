@@ -29,6 +29,3 @@ class Dungeon
 
 dungeon = new Dungeon(64)
 console.log(dungeon.getMapData())
-p = new Point(0,0)
-console.log("arround")
-console.log(dungeon.getAroundPoints(p))
