@@ -16,7 +16,7 @@ class Dungeon
     half = scale
     xBase = point.x - half
     yBase = point.y - half
-    doubleScale = 2 * scale
+    doubleScale = 2 * scale + 1
 
     points = for y in [0...doubleScale]
               for x in [0...doubleScale]
