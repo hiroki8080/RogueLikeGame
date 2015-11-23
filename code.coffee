@@ -33,7 +33,7 @@ class App
     requestAnimationFrame @loop
     @printStatus()
     console.log "loop"
-    mapData = @dungeon.getAroundPoints(@player.point)
+    mapData = @dungeon.getAroundPoints(@player.point, 5)
 #    mapData = [
 #      [2,2,2,2,2,2,2,2,2,2,2],
 #      [2,1,1,1,1,1,1,1,1,1,2],
