@@ -403,7 +403,7 @@
     }
 
     MapGenerator.prototype.generateSquareRoad = function(roadIndex) {
-      var MAX_ROAD_SIZE, MIN_ROAD_SIZE, OUTER_WALL_SIZE, j, k, ref, ref1, results, roadSize, x, y;
+      var MAX_ROAD_SIZE, MIN_ROAD_SIZE, OUTER_WALL_SIZE, j, k, len, randomPoint, ref, ref1, results, roadSize, squareRoad, x, y;
       OUTER_WALL_SIZE = 1;
       MIN_ROAD_SIZE = 11;
       MAX_ROAD_SIZE = 25;
@@ -411,13 +411,31 @@
         roadSize = Math.floor(Math.random() * (MAX_ROAD_SIZE - MIN_ROAD_SIZE + 1)) + MIN_ROAD_SIZE;
         this.squareRoadList.push(new SquareRoad(roadSize, new Point()));
       }
+      ref1 = this.squareRoadList;
       results = [];
-      for (x = k = 0, ref1 = this.squareRoadList[0].maxWidth; 0 <= ref1 ? k < ref1 : k > ref1; x = 0 <= ref1 ? ++k : --k) {
+      for (k = 0, len = ref1.length; k < len; k++) {
+        squareRoad = ref1[k];
+        randomPoint = new Point();
+        randomPoint.x = Math.floor(Math.random() * (this.size - squareRoad.maxWidth - 1 - OUTER_WALL_SIZE));
+        randomPoint.y = Math.floor(Math.random() * (this.size - squareRoad.maxHeight - 1 - OUTER_WALL_SIZE));
         results.push((function() {
           var l, ref2, results1;
           results1 = [];
-          for (y = l = 0, ref2 = this.squareRoadList[0].maxHeight; 0 <= ref2 ? l < ref2 : l > ref2; y = 0 <= ref2 ? ++l : --l) {
-            results1.push(this.mapData[x + OUTER_WALL_SIZE][y + OUTER_WALL_SIZE] = this.squareRoadList[0].getSquareRoadData()[x][y]);
+          for (x = l = 0, ref2 = squareRoad.maxWidth; 0 <= ref2 ? l < ref2 : l > ref2; x = 0 <= ref2 ? ++l : --l) {
+            results1.push((function() {
+              var m, ref3, results2;
+              results2 = [];
+              for (y = m = 0, ref3 = squareRoad.maxHeight; 0 <= ref3 ? m < ref3 : m > ref3; y = 0 <= ref3 ? ++m : --m) {
+                if (squareRoad.getSquareRoadData()[x][y] !== Chip.wall) {
+                  squareRoad.point.x = x + OUTER_WALL_SIZE + randomPoint.x;
+                  squareRoad.point.y = y + OUTER_WALL_SIZE + randomPoint.y;
+                  results2.push(this.mapData[squareRoad.point.x][squareRoad.point.y] = squareRoad.getSquareRoadData()[x][y]);
+                } else {
+                  results2.push(void 0);
+                }
+              }
+              return results2;
+            }).call(this));
           }
           return results1;
         }).call(this));
@@ -470,7 +488,7 @@
       } catch (error1) {
         error = error1;
         print(error);
-        return print("does not exist, four room");
+        return print("does not exist, four rooms");
       }
     };
 
@@ -483,7 +501,7 @@
       } catch (error1) {
         error = error1;
         print(error);
-        return print("does not exist, four room");
+        return print("does not exist, four rooms");
       }
     };
 
@@ -611,7 +629,7 @@
 
   mapGenerator = new MapGenerator(64);
 
-  mapGenerator.generateSquareRoad(2);
+  mapGenerator.generateSquareRoad(4);
 
   ref = mapGenerator.getMapData();
   for (j = 0, len = ref.length; j < len; j++) {

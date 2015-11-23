@@ -10,13 +10,18 @@ class MapGenerator
     for x in [1..roadIndex]
       roadSize = Math.floor(Math.random() * (MAX_ROAD_SIZE - MIN_ROAD_SIZE + 1)) + MIN_ROAD_SIZE
       @squareRoadList.push new SquareRoad(roadSize, new Point())
-    
-    for x in [0...@squareRoadList[0].maxWidth]
-      for y in [0...@squareRoadList[0].maxHeight]
-        @mapData[x + OUTER_WALL_SIZE][y + OUTER_WALL_SIZE] = @squareRoadList[0].getSquareRoadData()[x][y]
-    
-    #for squareRoad in @squareRoadList
-       
+    for squareRoad in @squareRoadList
+      randomPoint = new Point()
+      randomPoint.x = Math.floor(Math.random() * (@size - squareRoad.maxWidth - 1 - OUTER_WALL_SIZE))
+      randomPoint.y = Math.floor(Math.random() * (@size - squareRoad.maxHeight - 1 - OUTER_WALL_SIZE))
+      for x in [0...squareRoad.maxWidth]
+        for y in [0...squareRoad.maxHeight]
+          if squareRoad.getSquareRoadData()[x][y] != Chip.wall
+            squareRoad.point.x = x + OUTER_WALL_SIZE + randomPoint.x
+            squareRoad.point.y = y + OUTER_WALL_SIZE + randomPoint.y
+            @mapData[squareRoad.point.x][squareRoad.point.y] = squareRoad.getSquareRoadData()[x][y]
+      
+      
   getMapData: ()->
     [].concat @mapData
 
@@ -37,7 +42,7 @@ class SquareRoad
       maxUpperRoomMiddleSize + maxLowerRoomMiddleSize + @roadSize
     catch error
       print error
-      print "does not exist, four room"
+      print "does not exist, four rooms"
 
   getMaxWidth: ()->
     try
@@ -46,7 +51,7 @@ class SquareRoad
       maxLeftRoomMiddleSize + maxRightRoomMiddleSize + @roadSize
     catch error
       print error
-      print "does not exist, four room"
+      print "does not exist, four rooms"
 
   generateRoom: ()->
     MAX_ROOM_MULTIPLE_SIZE = 4
@@ -122,7 +127,7 @@ class RoomUtils
       return room1
 
 mapGenerator = new MapGenerator(64)
-mapGenerator.generateSquareRoad(2)
+mapGenerator.generateSquareRoad(4)
 
 for col in mapGenerator.getMapData()
   console.log(col)
