@@ -444,7 +444,9 @@
     };
 
     MapGenerator.prototype.getMapData = function() {
-      return [].concat(this.mapData);
+      return this.mapData.map(function(array) {
+        return [].concat(array);
+      });
     };
 
     return MapGenerator;
@@ -555,7 +557,9 @@
     };
 
     SquareRoad.prototype.getSquareRoadData = function() {
-      return this.squareRoadData;
+      return this.squareRoadData.map(function(array) {
+        return [].concat(array);
+      });
     };
 
     return SquareRoad;
@@ -587,7 +591,9 @@
     }
 
     Room.prototype.getRoomData = function() {
-      return [].concat(this.roomData);
+      return this.roomData.map(function(array) {
+        return [].concat(array);
+      });
     };
 
     Room.prototype.setChip = function(chip, point) {
@@ -630,6 +636,8 @@
   mapGenerator = new MapGenerator(64);
 
   mapGenerator.generateSquareRoad(4);
+
+  mapGenerator.getMapData()[1][1] = 100;
 
   ref = mapGenerator.getMapData();
   for (j = 0, len = ref.length; j < len; j++) {
