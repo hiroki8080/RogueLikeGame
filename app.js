@@ -268,7 +268,7 @@
       requestAnimationFrame(this.loop);
       this.printStatus();
       console.log("loop");
-      mapData = this.dungeon.getAroundPoints(this.player.point);
+      mapData = this.dungeon.getAroundPoints(this.player.point, 5);
       return this.printMap(mapData);
     };
 
@@ -415,20 +415,23 @@
       return this.mapData;
     };
 
-    Dungeon.prototype.getAroundPoints = function(point) {
-      var half, points, tmp, x, xBase, xx, y, yBase, yy;
-      tmp = 11;
-      half = Math.floor(tmp / 2);
+    Dungeon.prototype.getAroundPoints = function(point, scale) {
+      var arraySize, half, points, x, xBase, xx, y, yBase, yy;
+      if (scale == null) {
+        scale = 1;
+      }
+      half = scale;
       xBase = point.x - half;
       yBase = point.y - half;
+      arraySize = 2 * scale + 1;
       return points = (function() {
         var j, ref, results;
         results = [];
-        for (y = j = 0, ref = tmp; 0 <= ref ? j < ref : j > ref; y = 0 <= ref ? ++j : --j) {
+        for (y = j = 0, ref = arraySize; 0 <= ref ? j < ref : j > ref; y = 0 <= ref ? ++j : --j) {
           results.push((function() {
             var k, ref1, results1;
             results1 = [];
-            for (x = k = 0, ref1 = tmp; 0 <= ref1 ? k < ref1 : k > ref1; x = 0 <= ref1 ? ++k : --k) {
+            for (x = k = 0, ref1 = arraySize; 0 <= ref1 ? k < ref1 : k > ref1; x = 0 <= ref1 ? ++k : --k) {
               xx = xBase + x;
               yy = yBase + y;
               if ((yy >= 0 && xx >= 0) && (yy < 64 && xx < 64)) {
