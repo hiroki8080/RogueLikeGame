@@ -24,18 +24,16 @@ class MapGenerator
               room.point.y = squareRoad.point.y
             @mapData[squareRoad.point.x][squareRoad.point.y] = squareRoad.getSquareRoadData()[x][y]
     
-  setTreasureBox: ()->
+  setChip: (chip)->
     allRoomList = @squareRoadList.map (squareRoad) -> squareRoad.roomList
                                  .reduce (a, b) -> a.concat(b)
-    console.log(allRoomList)
     RoomUtils.shuffle(allRoomList)
     firstRoom = allRoomList[0]
-    console.log(firstRoom)
     roomX = Math.floor(Math.random() * firstRoom.size)
     roomY = Math.floor(Math.random() * firstRoom.size)
     console.log(firstRoom.point)
-    firstRoom.setChip(Chip.treasureChest, new Point(roomX, roomY))
-    @mapData[firstRoom.point.x - roomX][firstRoom.point.y - roomY] = Chip.treasureChest
+    firstRoom.setChip(chip, new Point(roomX, roomY))
+    @mapData[firstRoom.point.x - roomX][firstRoom.point.y - roomY] = chip
 
   getMapData: ()->
     @mapData.map (array) -> [].concat array
