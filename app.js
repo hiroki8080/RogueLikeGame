@@ -23,7 +23,7 @@
   Chip = (function() {
     function Chip() {}
 
-    Chip.outside = Math.floor(-1 / マップの外);
+    Chip.outside = -1;
 
     Chip.road = 1;
 
