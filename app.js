@@ -185,7 +185,7 @@
     };
 
     Character.prototype.getAroundPoints = function() {
-      var centerX, centerY, columnPoints, downY, j, k, leftX, len, len1, rightX, rowPoints, upY, x, xList, y, yList;
+      var centerX, centerY, columnPoints, downY, k, l, leftX, len, len1, rightX, rowPoints, upY, x, xList, y, yList;
       leftX = this.point.x - 1;
       centerX = this.point.x;
       rightX = this.point.x + 1;
@@ -195,11 +195,11 @@
       downY = this.point.y + 1;
       yList = [upY, centerY, downY];
       columnPoints = [];
-      for (j = 0, len = yList.length; j < len; j++) {
-        y = yList[j];
+      for (k = 0, len = yList.length; k < len; k++) {
+        y = yList[k];
         rowPoints = [];
-        for (k = 0, len1 = xList.length; k < len1; k++) {
-          x = xList[k];
+        for (l = 0, len1 = xList.length; l < len1; l++) {
+          x = xList[l];
           rowPoints.push(new Point(x, y));
         }
         columnPoints.push(rowPoints);
@@ -277,10 +277,10 @@
     };
 
     App.prototype.printMap = function(mapData) {
-      var data, j, k, len, len1, row, x, y;
-      for (x = j = 0, len = mapData.length; j < len; x = ++j) {
+      var data, k, l, len, len1, row, x, y;
+      for (x = k = 0, len = mapData.length; k < len; x = ++k) {
         row = mapData[x];
-        for (y = k = 0, len1 = row.length; k < len1; y = ++k) {
+        for (y = l = 0, len1 = row.length; l < len1; y = ++l) {
           data = row[y];
           switch (data) {
             case 1:
@@ -383,18 +383,18 @@
 
   MapGenerator = (function() {
     function MapGenerator(size1) {
-      var j, ref, results;
+      var k, ref, results;
       this.size = size1;
       this.mapData = (function() {
         results = [];
-        for (var j = 1, ref = this.size; 1 <= ref ? j <= ref : j >= ref; 1 <= ref ? j++ : j--){ results.push(j); }
+        for (var k = 1, ref = this.size; 1 <= ref ? k <= ref : k >= ref; 1 <= ref ? k++ : k--){ results.push(k); }
         return results;
       }).apply(this).map((function(_this) {
         return function(i) {
-          var j, ref, results;
+          var k, ref, results;
           return (function() {
             results = [];
-            for (var j = 1, ref = _this.size; 1 <= ref ? j <= ref : j >= ref; 1 <= ref ? j++ : j--){ results.push(j); }
+            for (var k = 1, ref = _this.size; 1 <= ref ? k <= ref : k >= ref; 1 <= ref ? k++ : k--){ results.push(k); }
             return results;
           }).apply(this).map(function(i) {
             return Chip.wall;
@@ -405,32 +405,38 @@
     }
 
     MapGenerator.prototype.generateSquareRoad = function(roadIndex) {
-      var MAX_ROAD_SIZE, MIN_ROAD_SIZE, OUTER_WALL_SIZE, j, k, len, randomPoint, ref, ref1, results, roadSize, squareRoad, x, y;
+      var MAX_ROAD_SIZE, MIN_ROAD_SIZE, OUTER_WALL_SIZE, k, l, len, randomPoint, ref, ref1, results, roadSize, room, squareRoad, x, y;
       OUTER_WALL_SIZE = 1;
       MIN_ROAD_SIZE = 11;
       MAX_ROAD_SIZE = 25;
-      for (x = j = 1, ref = roadIndex; 1 <= ref ? j <= ref : j >= ref; x = 1 <= ref ? ++j : --j) {
+      for (x = k = 1, ref = roadIndex; 1 <= ref ? k <= ref : k >= ref; x = 1 <= ref ? ++k : --k) {
         roadSize = Math.floor(Math.random() * (MAX_ROAD_SIZE - MIN_ROAD_SIZE + 1)) + MIN_ROAD_SIZE;
         this.squareRoadList.push(new SquareRoad(roadSize, new Point()));
       }
       ref1 = this.squareRoadList;
       results = [];
-      for (k = 0, len = ref1.length; k < len; k++) {
-        squareRoad = ref1[k];
+      for (l = 0, len = ref1.length; l < len; l++) {
+        squareRoad = ref1[l];
         randomPoint = new Point();
         randomPoint.x = Math.floor(Math.random() * (this.size - squareRoad.maxWidth - 1 - OUTER_WALL_SIZE));
         randomPoint.y = Math.floor(Math.random() * (this.size - squareRoad.maxHeight - 1 - OUTER_WALL_SIZE));
         results.push((function() {
-          var l, ref2, results1;
+          var m, ref2, results1;
           results1 = [];
-          for (x = l = 0, ref2 = squareRoad.maxWidth; 0 <= ref2 ? l < ref2 : l > ref2; x = 0 <= ref2 ? ++l : --l) {
+          for (x = m = 0, ref2 = squareRoad.maxWidth; 0 <= ref2 ? m < ref2 : m > ref2; x = 0 <= ref2 ? ++m : --m) {
             results1.push((function() {
-              var m, ref3, results2;
+              var len1, n, o, ref3, ref4, results2;
               results2 = [];
-              for (y = m = 0, ref3 = squareRoad.maxHeight; 0 <= ref3 ? m < ref3 : m > ref3; y = 0 <= ref3 ? ++m : --m) {
+              for (y = n = 0, ref3 = squareRoad.maxHeight; 0 <= ref3 ? n < ref3 : n > ref3; y = 0 <= ref3 ? ++n : --n) {
                 if (squareRoad.getSquareRoadData()[x][y] !== Chip.wall) {
                   squareRoad.point.x = x + OUTER_WALL_SIZE + randomPoint.x;
                   squareRoad.point.y = y + OUTER_WALL_SIZE + randomPoint.y;
+                  ref4 = squareRoad.roomList;
+                  for (o = 0, len1 = ref4.length; o < len1; o++) {
+                    room = ref4[o];
+                    room.point.x = squareRoad.point.x;
+                    room.point.y = squareRoad.point.y;
+                  }
                   results2.push(this.mapData[squareRoad.point.x][squareRoad.point.y] = squareRoad.getSquareRoadData()[x][y]);
                 } else {
                   results2.push(void 0);
@@ -445,6 +451,24 @@
       return results;
     };
 
+    MapGenerator.prototype.setTreasureBox = function() {
+      var allRoomList, firstRoom, roomX, roomY;
+      allRoomList = this.squareRoadList.map(function(squareRoad) {
+        return squareRoad.roomList;
+      }).reduce(function(a, b) {
+        return a.concat(b);
+      });
+      console.log(allRoomList);
+      RoomUtils.shuffle(allRoomList);
+      firstRoom = allRoomList[0];
+      console.log(firstRoom);
+      roomX = Math.floor(Math.random() * (firstRoom.size - 1));
+      roomY = Math.floor(Math.random() * (firstRoom.size - 1));
+      console.log(firstRoom.point);
+      firstRoom.setChip(Chip.treasureChest, new Point(roomX, roomY));
+      return this.mapData[firstRoom.point.x - roomX][firstRoom.point.y - roomY] = Chip.treasureChest;
+    };
+
     MapGenerator.prototype.getMapData = function() {
       return this.mapData.map(function(array) {
         return [].concat(array);
@@ -457,7 +481,7 @@
 
   SquareRoad = (function() {
     function SquareRoad(roadSize1, point1) {
-      var j, ref, results;
+      var k, ref, results;
       this.roadSize = roadSize1;
       this.point = point1;
       this.roomList = [];
@@ -466,14 +490,14 @@
       this.maxHeight = this.getMaxHeight();
       this.squareRoadData = (function() {
         results = [];
-        for (var j = 1, ref = this.maxWidth; 1 <= ref ? j <= ref : j >= ref; 1 <= ref ? j++ : j--){ results.push(j); }
+        for (var k = 1, ref = this.maxWidth; 1 <= ref ? k <= ref : k >= ref; 1 <= ref ? k++ : k--){ results.push(k); }
         return results;
       }).apply(this).map((function(_this) {
         return function(i) {
-          var j, ref, results;
+          var k, ref, results;
           return (function() {
             results = [];
-            for (var j = 1, ref = _this.maxHeight; 1 <= ref ? j <= ref : j >= ref; 1 <= ref ? j++ : j--){ results.push(j); }
+            for (var k = 1, ref = _this.maxHeight; 1 <= ref ? k <= ref : k >= ref; 1 <= ref ? k++ : k--){ results.push(k); }
             return results;
           }).apply(this).map(function(i) {
             return Chip.wall;
@@ -510,10 +534,10 @@
     };
 
     SquareRoad.prototype.generateRoom = function() {
-      var MAX_ROOM_MULTIPLE_SIZE, MIN_ROOM_MULTIPLE_SIZE, j, position, size;
+      var MAX_ROOM_MULTIPLE_SIZE, MIN_ROOM_MULTIPLE_SIZE, k, position, size;
       MAX_ROOM_MULTIPLE_SIZE = 4;
       MIN_ROOM_MULTIPLE_SIZE = 1;
-      for (position = j = 0; j <= 3; position = ++j) {
+      for (position = k = 0; k <= 3; position = ++k) {
         size = (Math.floor(Math.random() * (MAX_ROOM_MULTIPLE_SIZE - MIN_ROOM_MULTIPLE_SIZE + 1)) + MIN_ROOM_MULTIPLE_SIZE) * 2 + 1;
         this.roomList.push(new Room(size, position, new Point()));
       }
@@ -524,14 +548,14 @@
     };
 
     SquareRoad.prototype.renderSquareRoad = function() {
-      var j, k, l, leftRoadPosition, len, lowerRoadPosition, m, minLowerRoom, minLowerRoomMiddleSize, minRightRoom, minRightRoomMiddleSize, ref, ref1, ref2, ref3, results, rightRoadPosition, room, upperRoadPosition, x, y;
+      var k, l, leftRoadPosition, len, lowerRoadPosition, m, minLowerRoom, minLowerRoomMiddleSize, minRightRoom, minRightRoomMiddleSize, n, ref, ref1, ref2, ref3, results, rightRoadPosition, room, upperRoadPosition, x, y;
       console.log("maxWidth:" + this.maxWidth);
       console.log("maxHeight:" + this.maxHeight);
       ref = this.roomList;
-      for (j = 0, len = ref.length; j < len; j++) {
-        room = ref[j];
-        for (x = k = 0, ref1 = room.size; 0 <= ref1 ? k < ref1 : k > ref1; x = 0 <= ref1 ? ++k : --k) {
-          for (y = l = 0, ref2 = room.size; 0 <= ref2 ? l < ref2 : l > ref2; y = 0 <= ref2 ? ++l : --l) {
+      for (k = 0, len = ref.length; k < len; k++) {
+        room = ref[k];
+        for (x = l = 0, ref1 = room.size; 0 <= ref1 ? l < ref1 : l > ref1; x = 0 <= ref1 ? ++l : --l) {
+          for (y = m = 0, ref2 = room.size; 0 <= ref2 ? m < ref2 : m > ref2; y = 0 <= ref2 ? ++m : --m) {
             this.squareRoadData[room.point.x + x][room.point.y + y] = room.getRoomData()[x][y];
           }
         }
@@ -551,7 +575,7 @@
         return Chip.road;
       });
       results = [];
-      for (x = m = 0, ref3 = this.maxWidth; 0 <= ref3 ? m < ref3 : m > ref3; x = 0 <= ref3 ? ++m : --m) {
+      for (x = n = 0, ref3 = this.maxWidth; 0 <= ref3 ? n < ref3 : n > ref3; x = 0 <= ref3 ? ++n : --n) {
         this.squareRoadData[x][upperRoadPosition] = Chip.road;
         results.push(this.squareRoadData[x][lowerRoadPosition] = Chip.road);
       }
@@ -570,20 +594,20 @@
 
   Room = (function() {
     function Room(size1, position1, point1) {
-      var j, ref, results;
+      var k, ref, results;
       this.size = size1;
       this.position = position1;
       this.point = point1;
       this.roomData = (function() {
         results = [];
-        for (var j = 1, ref = this.size; 1 <= ref ? j <= ref : j >= ref; 1 <= ref ? j++ : j--){ results.push(j); }
+        for (var k = 1, ref = this.size; 1 <= ref ? k <= ref : k >= ref; 1 <= ref ? k++ : k--){ results.push(k); }
         return results;
       }).apply(this).map((function(_this) {
         return function(i) {
-          var j, ref, results;
+          var k, ref, results;
           return (function() {
             results = [];
-            for (var j = 1, ref = _this.size; 1 <= ref ? j <= ref : j >= ref; 1 <= ref ? j++ : j--){ results.push(j); }
+            for (var k = 1, ref = _this.size; 1 <= ref ? k <= ref : k >= ref; 1 <= ref ? k++ : k--){ results.push(k); }
             return results;
           }).apply(this).map(function(i) {
             return Chip.road;
@@ -631,6 +655,21 @@
       }
     };
 
+    RoomUtils.shuffle = function(roomList) {
+      var i, j, tmpi, tmpj;
+      i = roomList.length;
+      if (i === 0) {
+        return false;
+      }
+      while (--i) {
+        j = Math.floor(Math.random() * (i + 1));
+        tmpi = roomList[i];
+        tmpj = roomList[j];
+        roomList[i] = tmpj;
+        roomList[j] = tmpi;
+      }
+    };
+
     return RoomUtils;
 
   })();
@@ -642,10 +681,18 @@
     }
 
     Dungeon.prototype.init = function() {
-      var mapGenerator;
+      var array, k, len, mapGenerator, ref, results;
       mapGenerator = new MapGenerator(this.size);
-      mapGenerator.generateSquareRoad(2);
-      return this.mapData = mapGenerator.getMapData();
+      mapGenerator.generateSquareRoad(4);
+      mapGenerator.setTreasureBox();
+      this.mapData = mapGenerator.getMapData();
+      ref = this.mapData;
+      results = [];
+      for (k = 0, len = ref.length; k < len; k++) {
+        array = ref[k];
+        results.push(console.log(array));
+      }
+      return results;
     };
 
     Dungeon.prototype.getChip = function(x, y) {
@@ -666,13 +713,13 @@
       yBase = point.y - half;
       arraySize = 2 * scale + 1;
       return points = (function() {
-        var j, ref, results;
+        var k, ref, results;
         results = [];
-        for (y = j = 0, ref = arraySize; 0 <= ref ? j < ref : j > ref; y = 0 <= ref ? ++j : --j) {
+        for (y = k = 0, ref = arraySize; 0 <= ref ? k < ref : k > ref; y = 0 <= ref ? ++k : --k) {
           results.push((function() {
-            var k, ref1, results1;
+            var l, ref1, results1;
             results1 = [];
-            for (x = k = 0, ref1 = arraySize; 0 <= ref1 ? k < ref1 : k > ref1; x = 0 <= ref1 ? ++k : --k) {
+            for (x = l = 0, ref1 = arraySize; 0 <= ref1 ? l < ref1 : l > ref1; x = 0 <= ref1 ? ++l : --l) {
               xx = xBase + x;
               yy = yBase + y;
               if ((yy >= 0 && xx >= 0) && (yy < 64 && xx < 64)) {
@@ -689,9 +736,9 @@
     };
 
     Dungeon.prototype.searchRoad = function() {
-      var j, k, ref, ref1, x, y;
-      for (y = j = 0, ref = this.size; 0 <= ref ? j < ref : j > ref; y = 0 <= ref ? ++j : --j) {
-        for (x = k = 0, ref1 = this.size; 0 <= ref1 ? k < ref1 : k > ref1; x = 0 <= ref1 ? ++k : --k) {
+      var k, l, ref, ref1, x, y;
+      for (y = k = 0, ref = this.size; 0 <= ref ? k < ref : k > ref; y = 0 <= ref ? ++k : --k) {
+        for (x = l = 0, ref1 = this.size; 0 <= ref1 ? l < ref1 : l > ref1; x = 0 <= ref1 ? ++l : --l) {
           if (this.mapData[x][y] === Chip.road) {
             return new Point(x, y);
           }

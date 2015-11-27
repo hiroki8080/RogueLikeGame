@@ -19,9 +19,24 @@ class MapGenerator
           if squareRoad.getSquareRoadData()[x][y] != Chip.wall
             squareRoad.point.x = x + OUTER_WALL_SIZE + randomPoint.x
             squareRoad.point.y = y + OUTER_WALL_SIZE + randomPoint.y
+            for room in squareRoad.roomList
+              room.point.x = squareRoad.point.x
+              room.point.y = squareRoad.point.y
             @mapData[squareRoad.point.x][squareRoad.point.y] = squareRoad.getSquareRoadData()[x][y]
-      
-      
+    
+  setTreasureBox: ()->
+    allRoomList = @squareRoadList.map (squareRoad) -> squareRoad.roomList
+                                 .reduce (a, b) -> a.concat(b)
+    console.log(allRoomList)
+    RoomUtils.shuffle(allRoomList)
+    firstRoom = allRoomList[0]
+    console.log(firstRoom)
+    roomX = Math.floor(Math.random() * (firstRoom.size - 1))
+    roomY = Math.floor(Math.random() * (firstRoom.size - 1))
+    console.log(firstRoom.point)
+    firstRoom.setChip(Chip.treasureChest, new Point(roomX, roomY))
+    @mapData[firstRoom.point.x - roomX][firstRoom.point.y - roomY] = Chip.treasureChest
+
   getMapData: ()->
     @mapData.map (array) -> [].concat array
 
@@ -111,7 +126,7 @@ class Room
       @roomData[point.x][point.y] = chip
     catch error
       print "does not set chip to the room at the point"
-
+     
 
 class RoomUtils
   @max: (room1, room2)->
@@ -125,3 +140,15 @@ class RoomUtils
       return room2
     else
       return room1
+
+  @shuffle: (roomList)->
+    i = roomList.length
+    if i is 0 then return false
+    while --i
+      j = Math.floor Math.random() * (i + 1)
+      tmpi = roomList[i]
+      tmpj = roomList[j]
+      roomList[i] = tmpj
+      roomList[j] = tmpi
+    return
+
