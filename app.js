@@ -117,22 +117,20 @@
       return results;
     };
 
-    MapGenerator.prototype.setTreasureBox = function() {
+    MapGenerator.prototype.setChip = function(chip) {
       var allRoomList, firstRoom, roomX, roomY;
       allRoomList = this.squareRoadList.map(function(squareRoad) {
         return squareRoad.roomList;
       }).reduce(function(a, b) {
         return a.concat(b);
       });
-      console.log(allRoomList);
       RoomUtils.shuffle(allRoomList);
       firstRoom = allRoomList[0];
-      console.log(firstRoom);
       roomX = Math.floor(Math.random() * firstRoom.size);
       roomY = Math.floor(Math.random() * firstRoom.size);
       console.log(firstRoom.point);
-      firstRoom.setChip(Chip.treasureChest, new Point(roomX, roomY));
-      return this.mapData[firstRoom.point.x - roomX][firstRoom.point.y - roomY] = Chip.treasureChest;
+      firstRoom.setChip(chip, new Point(roomX, roomY));
+      return this.mapData[firstRoom.point.x - roomX][firstRoom.point.y - roomY] = chip;
     };
 
     MapGenerator.prototype.getMapData = function() {
@@ -364,13 +362,14 @@
       var array, k, len, mapGenerator, ref, results;
       mapGenerator = new MapGenerator(this.size);
       mapGenerator.generateSquareRoad(4);
-      mapGenerator.setTreasureBox();
       this.mapData = mapGenerator.getMapData();
+      mapGenerator.setChip(Chip.treasureChest);
+      mapGenerator.setChip(Chip.treasureChest);
       ref = this.mapData;
       results = [];
       for (k = 0, len = ref.length; k < len; k++) {
         array = ref[k];
-        results.push(console.log(array));
+        results.push(console.log("" + array));
       }
       return results;
     };
