@@ -112,6 +112,3 @@ class Character
     console.log("openMenu")
   logStatus: ->
     console.log "name: #{@name}\nx: #{@point.x}, y: #{@point.y}\nhp: #{@hp}"
-
-options = {name: "トルネコ", point: new Point(1, 10)}
-plyer1 = new Character(options)
