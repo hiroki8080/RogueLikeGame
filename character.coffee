@@ -11,6 +11,7 @@ class Character
     @attack = options.attack || 3
     @deffense = options.deffense || 1
     @type = options.type || Chip.enemy1
+    @dungeon = options.dungeon
     window.addEventListener('keydown', @bindEvent, true)
   bindEvent: (e) =>
     @move(e.keyCode)
@@ -29,29 +30,29 @@ class Character
       when Key.right
         @moveRight(1)
   moveUp: (distance) ->
-    toY = @point.y - distance
-    if @canToMove(@point.x, toY)
-      @point.y = toY
+    toPoint = @point.getRelativePoint(0, -distance)
+    if @canToMove(toPoint)
+      @point = toPoint
   moveDown: (distance) ->
-    toY = @point.y + distance
-    if @canToMove(@point.x, toY)
-      @point.y = toY
+    toPoint = @point.getRelativePoint(0, +distance)
+    if @canToMove(toPoint)
+      @point = toPoint
   moveLeft: (distance) ->
-    toX = @point.x - distance
-    if @canToMove(toX, @point.x)
-      @point.x = toX
+    toPoint = @point.getRelativePoint(-distance, 0)
+    if @canToMove(toPoint)
+      @point = toPoint
   moveRight: (distance) ->
-    toX = @point.x + distance
-    if @canToMove(toX, @point.x)
-      @point.x = toX
-  moveRandom: ->
+    toPoint = @point.getRelativePoint(+distance, 0)
+    if @canToMove(toPoint)
+      @point = toPoint
+  moveRandom: =>
     # 0~10の乱数
     directions = [Key.up, Key.down, Key.left, Key.right]
     rand = Math.floor(Math.random() * directions.length)
     @move(directions[rand])
   # 座標にあるチップが移動可能かを判定
   canToMove: (point) ->
-    tipNo = getTipWithCoordinates(point.x, point.y)
+    tipNo = @dungeon.getChip(point.x, point.y)
     switch tipNo
       when Chip.road
         return true
@@ -109,6 +110,3 @@ class Character
     console.log("openMenu")
   logStatus: ->
     console.log "name: #{@name}\nx: #{@point.x}, y: #{@point.y}\nhp: #{@hp}"
-
-options = {name: "トルネコ", point: new Point(1, 10)}
-plyer1 = new Character(options)

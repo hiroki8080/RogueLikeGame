@@ -9,7 +9,7 @@ class App
     @statusCtx = @statusCanvas.getContext '2d'
     @dungeon = new Dungeon(64)
     startPosition = @dungeon.searchRoad()
-    options = {name: "トルネコ", point: startPosition}
+    options = {name: "トルネコ", point: startPosition, dungeon: @dungeon}
     @player = new Character(options)
     @playerImg = new Image()
     @playerImg.src = 'images/hero.png'
