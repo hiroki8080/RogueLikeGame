@@ -8,13 +8,16 @@ class App
     @ctx = @canvas.getContext '2d'
     @statusCtx = @statusCanvas.getContext '2d'
     @dungeon = new Dungeon(64)
-    startPosition = @dungeon.searchRoad()
-    options = {name: "トルネコ", point: startPosition}
-    @player = new Character(options)
-    @playerImg = new Image()
-    @playerImg.src = 'images/hero.png'
-    statusCanvasInit @statusCanvas, @statusCtx
-    canvasInit @canvas, @ctx
+    setTimeout(
+      =>
+        startPosition = @dungeon.searchRoad()
+        options = {name: "トルネコ", point: startPosition, dungeon: @dungeon}
+        @player = new Character(options)
+        @playerImg = new Image()
+        @playerImg.src = 'images/hero.png'
+        statusCanvasInit @statusCanvas, @statusCtx
+        canvasInit @canvas, @ctx
+      , 1000 * 1)
 
   statusCanvasInit = (canvas, ctx)->
     canvas.width = 660

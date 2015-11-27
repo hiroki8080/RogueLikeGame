@@ -47,340 +47,6 @@
 
   })();
 
-  Point = (function() {
-    function Point(x, y) {
-      this.x = x || 0;
-      this.y = y || 0;
-    }
-
-    return Point;
-
-  })();
-
-  getTipWithCoordinates = function(x, y) {
-    return Chip.road;
-  };
-
-  Character = (function() {
-    function Character(options) {
-      this.bindEvent = bind(this.bindEvent, this);
-      this.point = options.point || new Point(0, 0);
-      this.name = options.name || "no name";
-      this.hp = options.hp || 20;
-      this.attack = options.attack || 3;
-      this.deffense = options.deffense || 1;
-      this.type = options.type || Chip.enemy1;
-      window.addEventListener('keydown', this.bindEvent, true);
-    }
-
-    Character.prototype.bindEvent = function(e) {
-      this.move(e.keyCode);
-      switch (e.keyCode) {
-        case Key.space:
-          this.openMenu(1);
-      }
-      return this.logStatus();
-    };
-
-    Character.prototype.move = function(keyCode) {
-      switch (keyCode) {
-        case Key.up:
-          return this.moveUp(1);
-        case Key.down:
-          return this.moveDown(1);
-        case Key.left:
-          return this.moveLeft(1);
-        case Key.right:
-          return this.moveRight(1);
-      }
-    };
-
-    Character.prototype.moveUp = function(distance) {
-      var toY;
-      toY = this.point.y - distance;
-      if (this.canToMove(this.point.x, toY)) {
-        return this.point.y = toY;
-      }
-    };
-
-    Character.prototype.moveDown = function(distance) {
-      var toY;
-      toY = this.point.y + distance;
-      if (this.canToMove(this.point.x, toY)) {
-        return this.point.y = toY;
-      }
-    };
-
-    Character.prototype.moveLeft = function(distance) {
-      var toX;
-      toX = this.point.x - distance;
-      if (this.canToMove(toX, this.point.x)) {
-        return this.point.x = toX;
-      }
-    };
-
-    Character.prototype.moveRight = function(distance) {
-      var toX;
-      toX = this.point.x + distance;
-      if (this.canToMove(toX, this.point.x)) {
-        return this.point.x = toX;
-      }
-    };
-
-    Character.prototype.moveRandom = function() {
-      var directions, rand;
-      directions = [Key.up, Key.down, Key.left, Key.right];
-      rand = Math.floor(Math.random() * directions.length);
-      return this.move(directions[rand]);
-    };
-
-    Character.prototype.canToMove = function(point) {
-      var tipNo;
-      tipNo = getTipWithCoordinates(point.x, point.y);
-      switch (tipNo) {
-        case Chip.road:
-          return true;
-        default:
-          return false;
-      }
-    };
-
-    Character.prototype.isPlayer = function() {
-      if (this.type === Chip.player) {
-        return true;
-      } else {
-        return false;
-      }
-    };
-
-    Character.prototype.isEnemy = function() {
-      if (Chip.enemies.indexOf(this.type) !== -1) {
-        return true;
-      } else {
-        return false;
-      }
-    };
-
-    Character.prototype.isEvent = function(point) {
-      var tipNo;
-      tipNo = getTipWithCoordinates(point.x, point.y);
-      switch (tipNo) {
-        case Chip.treasureChest:
-          searchObject(Chip.treasureChest);
-      }
-      if (this.enemies.indexOf(tipNo) === -1) {
-        return attack();
-      }
-    };
-
-    Character.prototype.attack = function() {
-      return console.log("player attacks");
-    };
-
-    Character.prototype.searchObject = function(tipNo) {
-      switch (tipNo) {
-        case Chip.treasureChest:
-          return console.log("open chest");
-      }
-    };
-
-    Character.prototype.getAroundPoints = function() {
-      var centerX, centerY, columnPoints, downY, j, k, leftX, len, len1, rightX, rowPoints, upY, x, xList, y, yList;
-      leftX = this.point.x - 1;
-      centerX = this.point.x;
-      rightX = this.point.x + 1;
-      xList = [leftX, centerX, rightX];
-      upY = this.point.y - 1;
-      centerY = this.point.y;
-      downY = this.point.y + 1;
-      yList = [upY, centerY, downY];
-      columnPoints = [];
-      for (j = 0, len = yList.length; j < len; j++) {
-        y = yList[j];
-        rowPoints = [];
-        for (k = 0, len1 = xList.length; k < len1; k++) {
-          x = xList[k];
-          rowPoints.push(new Point(x, y));
-        }
-        columnPoints.push(rowPoints);
-      }
-      return columnPoints;
-    };
-
-    Character.prototype.openMenu = function() {
-      return console.log("openMenu");
-    };
-
-    Character.prototype.logStatus = function() {
-      return console.log("name: " + this.name + "\nx: " + this.point.x + ", y: " + this.point.y + "\nhp: " + this.hp);
-    };
-
-    return Character;
-
-  })();
-
-  options = {
-    name: "トルネコ",
-    point: new Point(1, 10)
-  };
-
-  plyer1 = new Character(options);
-
-  console.log("\('o')/");
-
-  App = (function() {
-    var canvasInit, statusCanvasInit;
-
-    function App() {
-      this.loop = bind(this.loop, this);
-      var startPosition;
-      this.statusCanvas = document.getElementById('status');
-      this.canvas = document.getElementById('main');
-      this.ctx = this.canvas.getContext('2d');
-      this.statusCtx = this.statusCanvas.getContext('2d');
-      this.dungeon = new Dungeon(64);
-      startPosition = this.dungeon.searchRoad();
-      options = {
-        name: "トルネコ",
-        point: startPosition
-      };
-      this.player = new Character(options);
-      this.playerImg = new Image();
-      this.playerImg.src = 'images/hero.png';
-      statusCanvasInit(this.statusCanvas, this.statusCtx);
-      canvasInit(this.canvas, this.ctx);
-    }
-
-    statusCanvasInit = function(canvas, ctx) {
-      canvas.width = 660;
-      canvas.height = 30;
-      ctx.fillStyle = 'rgb(192, 80, 77)';
-      ctx.fillRect(0, 0, 660, 30);
-      return ctx.fill();
-    };
-
-    canvasInit = function(canvas, ctx) {
-      canvas.width = 660;
-      canvas.height = 660;
-      ctx.fillStyle = 'rgb(192, 80, 77)';
-      ctx.fillRect(0, 0, 660, 660);
-      return ctx.fill();
-    };
-
-    App.prototype.loop = function() {
-      var mapData;
-      requestAnimationFrame(this.loop);
-      this.printStatus();
-      console.log("loop");
-      mapData = this.dungeon.getAroundPoints(this.player.point, 5);
-      return this.printMap(mapData);
-    };
-
-    App.prototype.printMap = function(mapData) {
-      var data, j, k, len, len1, row, x, y;
-      for (x = j = 0, len = mapData.length; j < len; x = ++j) {
-        row = mapData[x];
-        for (y = k = 0, len1 = row.length; k < len1; y = ++k) {
-          data = row[y];
-          switch (data) {
-            case 1:
-              this.printRoad(y, x);
-              break;
-            case 2:
-              this.printWall(y, x);
-              break;
-            case 3:
-              this.printPlayer(y, x);
-              break;
-            case 4:
-              this.printWall(y, x);
-              break;
-            case 5:
-              this.printWall(y, x);
-              break;
-            case 6:
-              this.printWall(y, x);
-              break;
-            case 7:
-              this.printWall(y, x);
-              break;
-            case 8:
-              this.printWall(y, x);
-              break;
-            default:
-              this.printWall(y, x);
-          }
-        }
-      }
-      return this.printPlayer(5, 5);
-    };
-
-    App.prototype.printWall = function(x, y) {
-      this.wallImg = new Image();
-      this.wallImg.onload = (function(_this) {
-        return function() {
-          return _this.ctx.drawImage(_this.wallImg, x * 60, y * 60);
-        };
-      })(this);
-      return this.wallImg.src = 'images/wall.png';
-    };
-
-    App.prototype.printRoad = function(x, y) {
-      this.roadImg = new Image();
-      this.roadImg.onload = (function(_this) {
-        return function() {
-          return _this.ctx.drawImage(_this.roadImg, x * 60, y * 60);
-        };
-      })(this);
-      return this.roadImg.src = 'images/floor.png';
-    };
-
-    App.prototype.printPlayer = function(x, y) {
-      this.playerImg = new Image();
-      this.playerImg.onload = (function(_this) {
-        return function() {
-          return _this.ctx.drawImage(_this.playerImg, x * 60, y * 60);
-        };
-      })(this);
-      return this.playerImg.src = 'images/hero.png';
-    };
-
-    App.prototype.printEnemy = function(x, y) {};
-
-    App.prototype.printStatus = function() {
-      this.statusCtx.clearRect(0, 0, 660, 60);
-      this.statusCtx.strokeText("HP:" + this.player.hp, 0, 10);
-      this.statusCtx.strokeText("X:" + this.player.point.x, 100, 10);
-      return this.statusCtx.strokeText("Y:" + this.player.point.y, 200, 10);
-    };
-
-    return App;
-
-  })();
-
-  init = function() {
-    window.rogue = new App();
-    console.log("init");
-    return window.rogue.loop();
-  };
-
-  window.addEventListener('load', init);
-
-  Combat = (function() {
-    function Combat() {}
-
-    Combat.prototype.getByEnemies = function(point) {};
-
-    Combat.prototype.attack = function(fromCharacter, toCharacter) {
-      var damage;
-      damage = fromCharacter.attack - toCharacter.deffense;
-      return toCharacter.hp = -damage;
-    };
-
-    return Combat;
-
-  })();
-
   MapGenerator = (function() {
     function MapGenerator(size1) {
       var j, ref, results;
@@ -635,6 +301,16 @@
 
   })();
 
+  Point = (function() {
+    function Point(x, y) {
+      this.x = x || 0;
+      this.y = y || 0;
+    }
+
+    return Point;
+
+  })();
+
   Dungeon = (function() {
     function Dungeon(size1) {
       this.size = size1;
@@ -701,6 +377,338 @@
     };
 
     return Dungeon;
+
+  })();
+
+  getTipWithCoordinates = function(x, y) {
+    return Chip.road;
+  };
+
+  Character = (function() {
+    function Character(options) {
+      this.moveRandom = bind(this.moveRandom, this);
+      this.bindEvent = bind(this.bindEvent, this);
+      this.point = options.point || new Point(0, 0);
+      this.name = options.name || "no name";
+      this.hp = options.hp || 20;
+      this.attack = options.attack || 3;
+      this.deffense = options.deffense || 1;
+      this.type = options.type || Chip.enemy1;
+      this.dungeon = options.dungeon;
+      window.addEventListener('keydown', this.bindEvent, true);
+    }
+
+    Character.prototype.bindEvent = function(e) {
+      this.move(e.keyCode);
+      switch (e.keyCode) {
+        case Key.space:
+          this.openMenu(1);
+      }
+      return this.logStatus();
+    };
+
+    Character.prototype.move = function(keyCode) {
+      switch (keyCode) {
+        case Key.up:
+          return this.moveUp(1);
+        case Key.down:
+          return this.moveDown(1);
+        case Key.left:
+          return this.moveLeft(1);
+        case Key.right:
+          return this.moveRight(1);
+      }
+    };
+
+    Character.prototype.moveUp = function(distance) {
+      var toY;
+      toY = this.point.y - distance;
+      if (this.canToMove(this.point.x, toY)) {
+        return this.point.y = toY;
+      }
+    };
+
+    Character.prototype.moveDown = function(distance) {
+      var toY;
+      toY = this.point.y + distance;
+      if (this.canToMove(this.point.x, toY)) {
+        return this.point.y = toY;
+      }
+    };
+
+    Character.prototype.moveLeft = function(distance) {
+      var toX;
+      toX = this.point.x - distance;
+      if (this.canToMove(toX, this.point.x)) {
+        return this.point.x = toX;
+      }
+    };
+
+    Character.prototype.moveRight = function(distance) {
+      var toX;
+      toX = this.point.x + distance;
+      if (this.canToMove(toX, this.point.x)) {
+        return this.point.x = toX;
+      }
+    };
+
+    Character.prototype.moveRandom = function() {
+      var directions, rand;
+      directions = [Key.up, Key.down, Key.left, Key.right];
+      rand = Math.floor(Math.random() * directions.length);
+      return this.move(directions[rand]);
+    };
+
+    Character.prototype.canToMove = function(point) {
+      var tipNo;
+      console.log(this.dungeon);
+      tipNo = this.dungeon.getChip(point.x, point.y);
+      switch (tipNo) {
+        case Chip.road:
+          return true;
+        default:
+          return false;
+      }
+    };
+
+    Character.prototype.isPlayer = function() {
+      if (this.type === Chip.player) {
+        return true;
+      } else {
+        return false;
+      }
+    };
+
+    Character.prototype.isEnemy = function() {
+      if (Chip.enemies.indexOf(this.type) !== -1) {
+        return true;
+      } else {
+        return false;
+      }
+    };
+
+    Character.prototype.isEvent = function(point) {
+      var tipNo;
+      tipNo = getTipWithCoordinates(point.x, point.y);
+      switch (tipNo) {
+        case Chip.treasureChest:
+          searchObject(Chip.treasureChest);
+      }
+      if (this.enemies.indexOf(tipNo) === -1) {
+        return attack();
+      }
+    };
+
+    Character.prototype.attack = function() {
+      return console.log("player attacks");
+    };
+
+    Character.prototype.searchObject = function(tipNo) {
+      switch (tipNo) {
+        case Chip.treasureChest:
+          return console.log("open chest");
+      }
+    };
+
+    Character.prototype.getAroundPoints = function() {
+      var centerX, centerY, columnPoints, downY, j, k, leftX, len, len1, rightX, rowPoints, upY, x, xList, y, yList;
+      leftX = this.point.x - 1;
+      centerX = this.point.x;
+      rightX = this.point.x + 1;
+      xList = [leftX, centerX, rightX];
+      upY = this.point.y - 1;
+      centerY = this.point.y;
+      downY = this.point.y + 1;
+      yList = [upY, centerY, downY];
+      columnPoints = [];
+      for (j = 0, len = yList.length; j < len; j++) {
+        y = yList[j];
+        rowPoints = [];
+        for (k = 0, len1 = xList.length; k < len1; k++) {
+          x = xList[k];
+          rowPoints.push(new Point(x, y));
+        }
+        columnPoints.push(rowPoints);
+      }
+      return columnPoints;
+    };
+
+    Character.prototype.openMenu = function() {
+      return console.log("openMenu");
+    };
+
+    Character.prototype.logStatus = function() {
+      return console.log("name: " + this.name + "\nx: " + this.point.x + ", y: " + this.point.y + "\nhp: " + this.hp);
+    };
+
+    return Character;
+
+  })();
+
+  options = {
+    name: "トルネコ",
+    point: new Point(1, 10)
+  };
+
+  plyer1 = new Character(options);
+
+  console.log("\('o')/");
+
+  App = (function() {
+    var canvasInit, statusCanvasInit;
+
+    function App() {
+      this.loop = bind(this.loop, this);
+      this.statusCanvas = document.getElementById('status');
+      this.canvas = document.getElementById('main');
+      this.ctx = this.canvas.getContext('2d');
+      this.statusCtx = this.statusCanvas.getContext('2d');
+      this.dungeon = new Dungeon(64);
+      setTimeout((function(_this) {
+        return function() {
+          var startPosition;
+          startPosition = _this.dungeon.searchRoad();
+          options = {
+            name: "トルネコ",
+            point: startPosition,
+            dungeon: _this.dungeon
+          };
+          _this.player = new Character(options);
+          _this.playerImg = new Image();
+          _this.playerImg.src = 'images/hero.png';
+          statusCanvasInit(_this.statusCanvas, _this.statusCtx);
+          return canvasInit(_this.canvas, _this.ctx);
+        };
+      })(this), 1000 * 5);
+    }
+
+    statusCanvasInit = function(canvas, ctx) {
+      canvas.width = 660;
+      canvas.height = 30;
+      ctx.fillStyle = 'rgb(192, 80, 77)';
+      ctx.fillRect(0, 0, 660, 30);
+      return ctx.fill();
+    };
+
+    canvasInit = function(canvas, ctx) {
+      canvas.width = 660;
+      canvas.height = 660;
+      ctx.fillStyle = 'rgb(192, 80, 77)';
+      ctx.fillRect(0, 0, 660, 660);
+      return ctx.fill();
+    };
+
+    App.prototype.loop = function() {
+      var mapData;
+      requestAnimationFrame(this.loop);
+      this.printStatus();
+      console.log("loop");
+      mapData = this.dungeon.getAroundPoints(this.player.point, 5);
+      return this.printMap(mapData);
+    };
+
+    App.prototype.printMap = function(mapData) {
+      var data, j, k, len, len1, row, x, y;
+      for (x = j = 0, len = mapData.length; j < len; x = ++j) {
+        row = mapData[x];
+        for (y = k = 0, len1 = row.length; k < len1; y = ++k) {
+          data = row[y];
+          switch (data) {
+            case 1:
+              this.printRoad(y, x);
+              break;
+            case 2:
+              this.printWall(y, x);
+              break;
+            case 3:
+              this.printPlayer(y, x);
+              break;
+            case 4:
+              this.printWall(y, x);
+              break;
+            case 5:
+              this.printWall(y, x);
+              break;
+            case 6:
+              this.printWall(y, x);
+              break;
+            case 7:
+              this.printWall(y, x);
+              break;
+            case 8:
+              this.printWall(y, x);
+              break;
+            default:
+              this.printWall(y, x);
+          }
+        }
+      }
+      return this.printPlayer(5, 5);
+    };
+
+    App.prototype.printWall = function(x, y) {
+      this.wallImg = new Image();
+      this.wallImg.onload = (function(_this) {
+        return function() {
+          return _this.ctx.drawImage(_this.wallImg, x * 60, y * 60);
+        };
+      })(this);
+      return this.wallImg.src = 'images/wall.png';
+    };
+
+    App.prototype.printRoad = function(x, y) {
+      this.roadImg = new Image();
+      this.roadImg.onload = (function(_this) {
+        return function() {
+          return _this.ctx.drawImage(_this.roadImg, x * 60, y * 60);
+        };
+      })(this);
+      return this.roadImg.src = 'images/floor.png';
+    };
+
+    App.prototype.printPlayer = function(x, y) {
+      this.playerImg = new Image();
+      this.playerImg.onload = (function(_this) {
+        return function() {
+          return _this.ctx.drawImage(_this.playerImg, x * 60, y * 60);
+        };
+      })(this);
+      return this.playerImg.src = 'images/hero.png';
+    };
+
+    App.prototype.printEnemy = function(x, y) {};
+
+    App.prototype.printStatus = function() {
+      this.statusCtx.clearRect(0, 0, 660, 60);
+      this.statusCtx.strokeText("HP:" + this.player.hp, 0, 10);
+      this.statusCtx.strokeText("X:" + this.player.point.x, 100, 10);
+      return this.statusCtx.strokeText("Y:" + this.player.point.y, 200, 10);
+    };
+
+    return App;
+
+  })();
+
+  init = function() {
+    window.rogue = new App();
+    console.log("init");
+    return window.rogue.loop();
+  };
+
+  window.addEventListener('load', init);
+
+  Combat = (function() {
+    function Combat() {}
+
+    Combat.prototype.getByEnemies = function(point) {};
+
+    Combat.prototype.attack = function(fromCharacter, toCharacter) {
+      var damage;
+      damage = fromCharacter.attack - toCharacter.deffense;
+      return toCharacter.hp = -damage;
+    };
+
+    return Combat;
 
   })();
 
