@@ -12,6 +12,7 @@ class Character
     @deffense = options.deffense || 1
     @type = options.type || Chip.enemy1
     @dungeon = options.dungeon
+    @direction = Direction.DOWN
     window.addEventListener('keydown', @bindEvent, true)
   bindEvent: (e) =>
     @move(e.keyCode)
@@ -33,21 +34,25 @@ class Character
     toPoint = @point.getRelativePoint(0, -distance)
     if @canToMove(toPoint)
       @point = toPoint
+    @direction = Direction.UP
     @isEvent(toPoint)
   moveDown: (distance) ->
     toPoint = @point.getRelativePoint(0, +distance)
     if @canToMove(toPoint)
       @point = toPoint
+    @direction = Direction.DOWN
     @isEvent(toPoint)
   moveLeft: (distance) ->
     toPoint = @point.getRelativePoint(-distance, 0)
     if @canToMove(toPoint)
       @point = toPoint
+    @direction = Direction.LEFT
     @isEvent(toPoint)
   moveRight: (distance) ->
     toPoint = @point.getRelativePoint(+distance, 0)
     if @canToMove(toPoint)
       @point = toPoint
+    @direction = Direction.RIGHT
     @isEvent(toPoint)
   moveRandom: =>
     # 0~10の乱数
