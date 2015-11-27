@@ -95,7 +95,7 @@ class App
   printTreasureBox: (x,y)->
     @treasureBoxImg = new Image()
     @treasureBoxImg.onload = =>
-      @ctx.drawImage(@playerImg, x*60, y*60)
+      @ctx.drawImage(@treasureBoxImg, x*60, y*60)
     @treasureBoxImg.src = 'images/treasurebox.png'
 
 
