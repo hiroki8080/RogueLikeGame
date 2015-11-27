@@ -6,6 +6,7 @@ class Key
   @space = 32
 
 class Chip
+  @outside = -1 // マップの外
   @road = 1
   @wall = 2
   @player = 3

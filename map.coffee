@@ -25,7 +25,7 @@ class Dungeon
                 if (yy >= 0 and xx >= 0) and (yy < 64 and xx < 64)
                   @getChip(xBase + x, yBase + y)
                 else
-                  - 1
+                  Chip.outside
 
 dungeon = new Dungeon(64)
 console.log(dungeon.getMapData())
