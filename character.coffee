@@ -33,18 +33,22 @@ class Character
     toPoint = @point.getRelativePoint(0, -distance)
     if @canToMove(toPoint)
       @point = toPoint
+    @isEvent(toPoint)
   moveDown: (distance) ->
     toPoint = @point.getRelativePoint(0, +distance)
     if @canToMove(toPoint)
       @point = toPoint
+    @isEvent(toPoint)
   moveLeft: (distance) ->
     toPoint = @point.getRelativePoint(-distance, 0)
     if @canToMove(toPoint)
       @point = toPoint
+    @isEvent(toPoint)
   moveRight: (distance) ->
     toPoint = @point.getRelativePoint(+distance, 0)
     if @canToMove(toPoint)
       @point = toPoint
+    @isEvent(toPoint)
   moveRandom: =>
     # 0~10の乱数
     directions = [Key.up, Key.down, Key.left, Key.right]
@@ -69,18 +73,17 @@ class Character
     else
       return false
   isEvent: (point) ->
-    tipNo = getTipWithCoordinates(point.x, point.y)
+    tipNo = @dungeon.getChip(point.x, point.y)
+    console.log tipNo
     switch tipNo
       when Chip.treasureChest
-        searchObject(Chip.treasureChest)
-    if (@enemies.indexOf(tipNo) == -1)
-      attack()
-  attack: () ->
-    console.log("player attacks")
+        @searchObject(Chip.treasureChest)
+    if (Chip.enemies.indexOf(tipNo) == -1)
+      console.log("player attacks")
   searchObject: (tipNo) ->
     switch tipNo
       when Chip.treasureChest
-        console.log("open chest")
+        alert("ワンピースを手に入れた")
   # 自分の周囲8マスの座標を取得
   # 戻り値は下記の配列
   # [
