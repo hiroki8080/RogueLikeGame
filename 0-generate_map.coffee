@@ -31,8 +31,8 @@ class MapGenerator
     RoomUtils.shuffle(allRoomList)
     firstRoom = allRoomList[0]
     console.log(firstRoom)
-    roomX = Math.floor(Math.random() * (firstRoom.size - 1))
-    roomY = Math.floor(Math.random() * (firstRoom.size - 1))
+    roomX = Math.floor(Math.random() * firstRoom.size)
+    roomY = Math.floor(Math.random() * firstRoom.size)
     console.log(firstRoom.point)
     firstRoom.setChip(Chip.treasureChest, new Point(roomX, roomY))
     @mapData[firstRoom.point.x - roomX][firstRoom.point.y - roomY] = Chip.treasureChest
