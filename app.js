@@ -654,78 +654,47 @@
           data = row[y];
           switch (data) {
             case 1:
-              this.printRoad(y, x);
+              this.printImg(y, x, 'images/wall.png');
               break;
             case 2:
-              this.printWall(y, x);
+              this.printImg(y, x, 'images/floor.png');
               break;
             case 3:
-              this.printPlayer(y, x);
+              this.printImg(y, x, 'images/hero.png');
               break;
             case 4:
-              this.printTreasureBox(y, x);
+              this.printImg(y, x, 'images/treasurebox.png');
               break;
             case 5:
-              this.printWall(y, x);
+              this.printImg(y, x, 'images/enemy1.png');
               break;
             case 6:
-              this.printWall(y, x);
+              this.printImg(y, x, 'images/enemy2.png');
               break;
             case 7:
-              this.printWall(y, x);
+              this.printImg(y, x, 'images/enemy3.png');
               break;
             case 8:
-              this.printWall(y, x);
+              this.printImg(y, x, 'images/trap.png');
               break;
             default:
-              this.printWall(y, x);
+              this.printImg(y, x, 'images/wall.png');
           }
         }
       }
-      return this.printPlayer(5, 5);
+      return this.printImg(5, 5, 'images/hero.png');
     };
 
-    App.prototype.printWall = function(x, y) {
-      this.wallImg = new Image();
-      this.wallImg.onload = (function(_this) {
+    App.prototype.printImg = function(x, y, image) {
+      var img;
+      img = new Image();
+      img.onload = (function(_this) {
         return function() {
-          return _this.ctx.drawImage(_this.wallImg, x * 60, y * 60);
+          return _this.ctx.drawImage(img, x * 60, y * 60);
         };
       })(this);
-      return this.wallImg.src = 'images/wall.png';
+      return img.src = image;
     };
-
-    App.prototype.printRoad = function(x, y) {
-      this.roadImg = new Image();
-      this.roadImg.onload = (function(_this) {
-        return function() {
-          return _this.ctx.drawImage(_this.roadImg, x * 60, y * 60);
-        };
-      })(this);
-      return this.roadImg.src = 'images/floor.png';
-    };
-
-    App.prototype.printPlayer = function(x, y) {
-      this.playerImg = new Image();
-      this.playerImg.onload = (function(_this) {
-        return function() {
-          return _this.ctx.drawImage(_this.playerImg, x * 60, y * 60);
-        };
-      })(this);
-      return this.playerImg.src = 'images/hero.png';
-    };
-
-    App.prototype.printTreasureBox = function(x, y) {
-      this.treasureBoxImg = new Image();
-      this.treasureBoxImg.onload = (function(_this) {
-        return function() {
-          return _this.ctx.drawImage(_this.treasureBoxImg, x * 60, y * 60);
-        };
-      })(this);
-      return this.treasureBoxImg.src = 'images/treasurebox.png';
-    };
-
-    App.prototype.printEnemy = function(x, y) {};
 
     App.prototype.printStatus = function() {
       this.statusCtx.clearRect(0, 0, 660, 60);
