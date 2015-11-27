@@ -55,51 +55,30 @@ class App
       for data,y in row
         switch data
           when 1
-            @printRoad y, x
+            @printImg y, x, 'images/wall.png'
           when 2
-            @printWall y, x
+            @printImg y, x, 'images/floor.png'
           when 3
-            @printPlayer y, x
+            @printImg y, x, 'images/hero.png'
           when 4
-            @printTreasureBox y, x
+            @printImg y, x, 'images/treasurebox.png'
           when 5
-            @printWall y, x
+            @printImg y, x, 'images/enemy1.png'
           when 6
-            @printWall y, x
+            @printImg y, x, 'images/enemy2.png'
           when 7
-            @printWall y, x
+            @printImg y, x, 'images/enemy3.png'
           when 8
-            @printWall y, x
+            @printImg y, x, 'images/trap.png'
           else
-            @printWall y, x
-    @printPlayer 5, 5
+            @printImg y, x, 'images/wall.png'
+    @printImg 5, 5, 'images/hero.png'
 
-  printWall: (x,y)->
-    @wallImg = new Image()
-    @wallImg.onload = =>
-      @ctx.drawImage(@wallImg, x*60, y*60)
-    @wallImg.src = 'images/wall.png'
-
-  printRoad: (x,y)->
-    @roadImg = new Image()
-    @roadImg.onload = =>
-      @ctx.drawImage(@roadImg, x*60, y*60)
-    @roadImg.src = 'images/floor.png'
-
-  printPlayer: (x,y)->
-    @playerImg = new Image()
-    @playerImg.onload = =>
-      @ctx.drawImage(@playerImg, x*60, y*60)
-    @playerImg.src = 'images/hero.png'
-
-  printTreasureBox: (x,y)->
-    @treasureBoxImg = new Image()
-    @treasureBoxImg.onload = =>
-      @ctx.drawImage(@treasureBoxImg, x*60, y*60)
-    @treasureBoxImg.src = 'images/treasurebox.png'
-
-
-  printEnemy: (x,y)->
+  printImg: (x,y, image)->
+    img = new Image()
+    img.onload = =>
+      @ctx.drawImage(img, x*60, y*60)
+    img.src = image
 
   printStatus: ->
     @statusCtx.clearRect(0, 0, 660, 60)
