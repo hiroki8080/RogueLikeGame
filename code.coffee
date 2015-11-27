@@ -61,7 +61,7 @@ class App
           when 3
             @printPlayer y, x
           when 4
-            @printWall y, x
+            @printTreasureBox y, x
           when 5
             @printWall y, x
           when 6
@@ -91,6 +91,13 @@ class App
     @playerImg.onload = =>
       @ctx.drawImage(@playerImg, x*60, y*60)
     @playerImg.src = 'images/hero.png'
+
+  printTreasureBox: (x,y)->
+    @treasureBoxImg = new Image()
+    @treasureBoxImg.onload = =>
+      @ctx.drawImage(@playerImg, x*60, y*60)
+    @treasureBoxImg.src = 'images/treasurebox.png'
+
 
   printEnemy: (x,y)->
 
