@@ -97,3 +97,10 @@ class Dungeon
                   Chip.outside
 
     [].concat @mapData
+
+  searchRoad: ()->
+    for y in [0...@size]
+      for x in [0...@size]
+        if @mapData[x][y] == Chip.road
+          return new Point(x, y)
+    console.log "NOT FOUND"

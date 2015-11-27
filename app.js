@@ -233,14 +233,16 @@
 
     function App() {
       this.loop = bind(this.loop, this);
+      var startPosition;
       this.statusCanvas = document.getElementById('status');
       this.canvas = document.getElementById('main');
       this.ctx = this.canvas.getContext('2d');
       this.statusCtx = this.statusCanvas.getContext('2d');
       this.dungeon = new Dungeon(64);
+      startPosition = this.dungeon.searchRoad();
       options = {
         name: "トルネコ",
-        point: new Point(1, 10)
+        point: startPosition
       };
       this.player = new Character(options);
       this.playerImg = new Image();
@@ -712,6 +714,18 @@
         return results;
       }).call(this);
       return [].concat(this.mapData);
+    };
+
+    Dungeon.prototype.searchRoad = function() {
+      var k, l, ref1, ref2, x, y;
+      for (y = k = 0, ref1 = this.size; 0 <= ref1 ? k < ref1 : k > ref1; y = 0 <= ref1 ? ++k : --k) {
+        for (x = l = 0, ref2 = this.size; 0 <= ref2 ? l < ref2 : l > ref2; x = 0 <= ref2 ? ++l : --l) {
+          if (this.mapData[x][y] === Chip.road) {
+            return new Point(x, y);
+          }
+        }
+      }
+      return console.log("NOT FOUND");
     };
 
     return Dungeon;
