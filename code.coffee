@@ -9,7 +9,7 @@ class App
     @statusCtx = @statusCanvas.getContext '2d'
     @dungeon = new Dungeon(64)
     startPosition = @dungeon.searchRoad()
-    options = {name: "トルネコ", point: startPosition}
+    options = {name: "トルネコ", point: startPosition, dungeon: @dungeon}
     @player = new Character(options)
     @playerImg = new Image()
     @playerImg.src = 'images/hero.png'
@@ -61,7 +61,7 @@ class App
           when 3
             @printPlayer y, x
           when 4
-            @printWall y, x
+            @printTreasureBox y, x
           when 5
             @printWall y, x
           when 6
@@ -91,6 +91,13 @@ class App
     @playerImg.onload = =>
       @ctx.drawImage(@playerImg, x*60, y*60)
     @playerImg.src = 'images/hero.png'
+
+  printTreasureBox: (x,y)->
+    @treasureBoxImg = new Image()
+    @treasureBoxImg.onload = =>
+      @ctx.drawImage(@treasureBoxImg, x*60, y*60)
+    @treasureBoxImg.src = 'images/treasurebox.png'
+
 
   printEnemy: (x,y)->
 
