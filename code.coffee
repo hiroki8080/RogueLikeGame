@@ -54,23 +54,24 @@ class App
       for data,y in row
         switch data
           when 1
-            @printRoad x, y
+            @printRoad y, x
           when 2
-            @printWall x, y
+            @printWall y, x
           when 3
-            @printPlayer x, y
+            @printPlayer y, x
           when 4
-            @printWall x, y
+            @printWall y, x
           when 5
-            @printWall x, y
+            @printWall y, x
           when 6
-            @printWall x, y
+            @printWall y, x
           when 7
-            @printWall x, y
+            @printWall y, x
           when 8
-            @printWall x, y
+            @printWall y, x
           else
-            @printWall x, y
+            @printWall y, x
+    @printPlayer 5, 5
 
   printWall: (x,y)->
     @wallImg = new Image()
@@ -79,13 +80,13 @@ class App
     @wallImg.src = 'images/wall.png'
 
   printRoad: (x,y)->
-    @roadImg = new Image();
+    @roadImg = new Image()
     @roadImg.onload = =>
       @ctx.drawImage(@roadImg, x*60, y*60)
     @roadImg.src = 'images/floor.png'
 
   printPlayer: (x,y)->
-    @playerImg = new Image();
+    @playerImg = new Image()
     @playerImg.onload = =>
       @ctx.drawImage(@playerImg, x*60, y*60)
     @playerImg.src = 'images/hero.png'

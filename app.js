@@ -23,7 +23,7 @@
   Chip = (function() {
     function Chip() {}
 
-    Chip.outside = Math.floor(-1 / マップの外);
+    Chip.outside = -1;
 
     Chip.road = 1;
 
@@ -275,48 +275,42 @@
     };
 
     App.prototype.printMap = function(mapData) {
-      var data, j, len, results, row, x, y;
-      results = [];
+      var data, j, k, len, len1, row, x, y;
       for (x = j = 0, len = mapData.length; j < len; x = ++j) {
         row = mapData[x];
-        results.push((function() {
-          var k, len1, results1;
-          results1 = [];
-          for (y = k = 0, len1 = row.length; k < len1; y = ++k) {
-            data = row[y];
-            switch (data) {
-              case 1:
-                results1.push(this.printRoad(x, y));
-                break;
-              case 2:
-                results1.push(this.printWall(x, y));
-                break;
-              case 3:
-                results1.push(this.printPlayer(x, y));
-                break;
-              case 4:
-                results1.push(this.printWall(x, y));
-                break;
-              case 5:
-                results1.push(this.printWall(x, y));
-                break;
-              case 6:
-                results1.push(this.printWall(x, y));
-                break;
-              case 7:
-                results1.push(this.printWall(x, y));
-                break;
-              case 8:
-                results1.push(this.printWall(x, y));
-                break;
-              default:
-                results1.push(this.printWall(x, y));
-            }
+        for (y = k = 0, len1 = row.length; k < len1; y = ++k) {
+          data = row[y];
+          switch (data) {
+            case 1:
+              this.printRoad(y, x);
+              break;
+            case 2:
+              this.printWall(y, x);
+              break;
+            case 3:
+              this.printPlayer(y, x);
+              break;
+            case 4:
+              this.printWall(y, x);
+              break;
+            case 5:
+              this.printWall(y, x);
+              break;
+            case 6:
+              this.printWall(y, x);
+              break;
+            case 7:
+              this.printWall(y, x);
+              break;
+            case 8:
+              this.printWall(y, x);
+              break;
+            default:
+              this.printWall(y, x);
           }
-          return results1;
-        }).call(this));
+        }
       }
-      return results;
+      return this.printPlayer(5, 5);
     };
 
     App.prototype.printWall = function(x, y) {
