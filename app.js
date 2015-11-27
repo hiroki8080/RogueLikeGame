@@ -124,6 +124,7 @@
       }).reduce(function(a, b) {
         return a.concat(b);
       });
+      console.log(chip);
       RoomUtils.shuffle(allRoomList);
       firstRoom = allRoomList[0];
       roomX = Math.floor(Math.random() * firstRoom.size);
@@ -359,19 +360,13 @@
     }
 
     Dungeon.prototype.init = function() {
-      var array, k, len, mapGenerator, ref, results;
+      var mapGenerator;
       mapGenerator = new MapGenerator(this.size);
       mapGenerator.generateSquareRoad(4);
-      this.mapData = mapGenerator.getMapData();
       mapGenerator.setChip(Chip.treasureChest);
       mapGenerator.setChip(Chip.treasureChest);
-      ref = this.mapData;
-      results = [];
-      for (k = 0, len = ref.length; k < len; k++) {
-        array = ref[k];
-        results.push(console.log("" + array));
-      }
-      return results;
+      mapGenerator.setChip(Chip.enemy1);
+      return this.mapData = mapGenerator.getMapData();
     };
 
     Dungeon.prototype.getChip = function(x, y) {
@@ -474,32 +469,36 @@
       var toPoint;
       toPoint = this.point.getRelativePoint(0, -distance);
       if (this.canToMove(toPoint)) {
-        return this.point = toPoint;
+        this.point = toPoint;
       }
+      return this.isEvent(toPoint);
     };
 
     Character.prototype.moveDown = function(distance) {
       var toPoint;
       toPoint = this.point.getRelativePoint(0, +distance);
       if (this.canToMove(toPoint)) {
-        return this.point = toPoint;
+        this.point = toPoint;
       }
+      return this.isEvent(toPoint);
     };
 
     Character.prototype.moveLeft = function(distance) {
       var toPoint;
       toPoint = this.point.getRelativePoint(-distance, 0);
       if (this.canToMove(toPoint)) {
-        return this.point = toPoint;
+        this.point = toPoint;
       }
+      return this.isEvent(toPoint);
     };
 
     Character.prototype.moveRight = function(distance) {
       var toPoint;
       toPoint = this.point.getRelativePoint(+distance, 0);
       if (this.canToMove(toPoint)) {
-        return this.point = toPoint;
+        this.point = toPoint;
       }
+      return this.isEvent(toPoint);
     };
 
     Character.prototype.moveRandom = function() {
@@ -538,24 +537,21 @@
 
     Character.prototype.isEvent = function(point) {
       var tipNo;
-      tipNo = getTipWithCoordinates(point.x, point.y);
+      tipNo = this.dungeon.getChip(point.x, point.y);
+      console.log(tipNo);
       switch (tipNo) {
         case Chip.treasureChest:
-          searchObject(Chip.treasureChest);
+          this.searchObject(Chip.treasureChest);
       }
-      if (this.enemies.indexOf(tipNo) === -1) {
-        return attack();
+      if (Chip.enemies.indexOf(tipNo) === -1) {
+        return console.log("player attacks");
       }
-    };
-
-    Character.prototype.attack = function() {
-      return console.log("player attacks");
     };
 
     Character.prototype.searchObject = function(tipNo) {
       switch (tipNo) {
         case Chip.treasureChest:
-          return console.log("open chest");
+          return alert("ワンピースを手に入れた");
       }
     };
 

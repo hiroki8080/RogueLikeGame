@@ -27,6 +27,7 @@ class MapGenerator
   setChip: (chip)->
     allRoomList = @squareRoadList.map (squareRoad) -> squareRoad.roomList
                                  .reduce (a, b) -> a.concat(b)
+    console.log(chip)
     RoomUtils.shuffle(allRoomList)
     firstRoom = allRoomList[0]
     roomX = Math.floor(Math.random() * firstRoom.size)
