@@ -71,6 +71,9 @@ class Dungeon
       [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
       [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2]
     ]
+    mapGenerator = new MapGenerator(@size)
+    mapGenerator.generateSquareRoad(2)
+    @mapData = mapGenerator.getMapData()
 
   getChip: (x, y)->
     @mapData[x][y]
@@ -93,5 +96,4 @@ class Dungeon
                 else
                   Chip.outside
 
-dungeon = new Dungeon(64)
-console.log(dungeon.getMapData())
+    [].concat @mapData
