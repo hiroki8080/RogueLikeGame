@@ -4,8 +4,11 @@ class Dungeon
 
   init: ()->
     mapGenerator = new MapGenerator(@size)
-    mapGenerator.generateSquareRoad(2)
+    mapGenerator.generateSquareRoad(4)
+    mapGenerator.setTreasureBox()
     @mapData = mapGenerator.getMapData()
+    for array in @mapData
+      console.log(array)
 
   getChip: (x, y)->
     @mapData[x][y]
