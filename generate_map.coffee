@@ -125,11 +125,3 @@ class RoomUtils
       return room2
     else
       return room1
-
-
-mapGenerator = new MapGenerator(64)
-mapGenerator.generateSquareRoad(4)
-# Check to deep copy
-mapGenerator.getMapData()[1][1] = 100
-for col in mapGenerator.getMapData()
-  console.log(col)
