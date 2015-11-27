@@ -475,32 +475,36 @@
       var toPoint;
       toPoint = this.point.getRelativePoint(0, -distance);
       if (this.canToMove(toPoint)) {
-        return this.point = toPoint;
+        this.point = toPoint;
       }
+      return this.isEvent(toPoint);
     };
 
     Character.prototype.moveDown = function(distance) {
       var toPoint;
       toPoint = this.point.getRelativePoint(0, +distance);
       if (this.canToMove(toPoint)) {
-        return this.point = toPoint;
+        this.point = toPoint;
       }
+      return this.isEvent(toPoint);
     };
 
     Character.prototype.moveLeft = function(distance) {
       var toPoint;
       toPoint = this.point.getRelativePoint(-distance, 0);
       if (this.canToMove(toPoint)) {
-        return this.point = toPoint;
+        this.point = toPoint;
       }
+      return this.isEvent(toPoint);
     };
 
     Character.prototype.moveRight = function(distance) {
       var toPoint;
       toPoint = this.point.getRelativePoint(+distance, 0);
       if (this.canToMove(toPoint)) {
-        return this.point = toPoint;
+        this.point = toPoint;
       }
+      return this.isEvent(toPoint);
     };
 
     Character.prototype.moveRandom = function() {
@@ -539,24 +543,21 @@
 
     Character.prototype.isEvent = function(point) {
       var tipNo;
-      tipNo = getTipWithCoordinates(point.x, point.y);
+      tipNo = this.dungeon.getChip(point.x, point.y);
+      console.log(tipNo);
       switch (tipNo) {
         case Chip.treasureChest:
-          searchObject(Chip.treasureChest);
+          this.searchObject(Chip.treasureChest);
       }
-      if (this.enemies.indexOf(tipNo) === -1) {
-        return attack();
+      if (Chip.enemies.indexOf(tipNo) === -1) {
+        return console.log("player attacks");
       }
-    };
-
-    Character.prototype.attack = function() {
-      return console.log("player attacks");
     };
 
     Character.prototype.searchObject = function(tipNo) {
       switch (tipNo) {
         case Chip.treasureChest:
-          return console.log("open chest");
+          return alert("ワンピースを手に入れた");
       }
     };
 
