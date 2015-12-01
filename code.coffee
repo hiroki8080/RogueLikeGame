@@ -1,6 +1,7 @@
 console.log "\('o')/"
 
 class App
+  _renderPlayerPoint = new Point(5, 5)
 
   constructor: ->
     @statusCanvas = document.getElementById 'status'
@@ -9,10 +10,19 @@ class App
     @statusCtx = @statusCanvas.getContext '2d'
     @dungeon = new Dungeon(64)
     startPosition = @dungeon.searchRoad()
-    options = {name: "トルネコ", point: startPosition, dungeon: @dungeon}
+    playerImg = new Image()
+    playerImg.src = 'images/hero_splite.png'
+    playerSprite = new Sprite(
+      ticksPerFrame: 10
+      numberOfFrames: 3
+      context: @ctx
+      canvasWidth: 96
+      frameHeight: 32
+      image: playerImg
+      chipSize: 60
+    )
+    options = {name: "トルネコ", point: startPosition, dungeon: @dungeon, sprite: playerSprite}
     @player = new Character(options)
-    @playerImg = new Image()
-    @playerImg.src = 'images/hero.png'
     statusCanvasInit @statusCanvas, @statusCtx
     canvasInit @canvas, @ctx
 
@@ -48,6 +58,7 @@ class App
 #      [2,1,1,1,1,1,1,1,1,1,2],
 #      [2,2,2,2,2,2,2,2,2,2,2],
 #    ]
+    @player.update()
     @printMap mapData
 
   printMap: (mapData)->
@@ -72,7 +83,7 @@ class App
             @printImg y, x, 'images/trap.png'
           else
             @printImg y, x, 'images/wall.png'
-    @printImg 5, 5, 'images/hero.png'
+    @player.render(_renderPlayerPoint)
 
   printImg: (x,y, image)->
     img = new Image()

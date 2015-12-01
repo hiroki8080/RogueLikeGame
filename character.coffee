@@ -1,8 +1,3 @@
-# 必要なAPIを仮実装
-getTipWithCoordinates = (x, y) ->
-  Chip.road
-# 宝箱というアイテムを処理するAPI
-
 class Character
   constructor: (options) ->
     @point = options.point || new Point(0, 0)
@@ -13,6 +8,7 @@ class Character
     @type = options.type || Chip.enemy1
     @dungeon = options.dungeon
     @direction = Direction.DOWN
+    @sprite = options.sprite
     window.addEventListener('keydown', @bindEvent, true)
   bindEvent: (e) =>
     @move(e.keyCode)
@@ -20,6 +16,11 @@ class Character
       when Key.space
         @openMenu(1)
     @logStatus()
+  update: ->
+    @sprite.sourceOffsetY = @direction
+    @sprite.update()
+  render: (point) ->
+    @sprite.render(point)
   move: (keyCode) ->
     switch keyCode
       when Key.up
@@ -80,7 +81,6 @@ class Character
       return false
   isEvent: (point) ->
     tipNo = @dungeon.getChip(point.x, point.y)
-    console.log tipNo
     switch tipNo
       when Chip.treasureChest
         @searchObject(Chip.treasureChest)
@@ -118,4 +118,4 @@ class Character
   openMenu: ->
     console.log("openMenu")
   logStatus: ->
-    console.log "name: #{@name}\nx: #{@point.x}, y: #{@point.y}\nhp: #{@hp}"
+    console.log "name: #{@name}\nx: #{@point.x}, y: #{@point.y}\nhp: #{@hp} direction: #{@direction}"

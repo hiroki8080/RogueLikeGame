@@ -18,7 +18,7 @@ class Chip
   @enemies = [@enemy1, @enemy2, @enemy3]
 
 class Direction
-  @UP = 1
-  @DOWN = 2
-  @LEFT = 3
-  @RIGHT = 4
+  @DOWN = 0
+  @LEFT = 1
+  @RIGHT = 2
+  @UP = 3
