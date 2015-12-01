@@ -8,6 +8,7 @@ class Character
     @type = options.type || Chip.enemy1
     @dungeon = options.dungeon
     @direction = Direction.DOWN
+    @sprite = options.sprite
     window.addEventListener('keydown', @bindEvent, true)
   bindEvent: (e) =>
     @move(e.keyCode)
@@ -15,6 +16,11 @@ class Character
       when Key.space
         @openMenu(1)
     @logStatus()
+  update: ->
+    @sprite.sourceOffsetY = @direction
+    @sprite.update()
+  render: (point) ->
+    @sprite.render(point)
   move: (keyCode) ->
     switch keyCode
       when Key.up
