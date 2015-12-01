@@ -80,7 +80,6 @@ class Character
       return false
   isEvent: (point) ->
     tipNo = @dungeon.getChip(point.x, point.y)
-    console.log tipNo
     switch tipNo
       when Chip.treasureChest
         @searchObject(Chip.treasureChest)
@@ -118,4 +117,4 @@ class Character
   openMenu: ->
     console.log("openMenu")
   logStatus: ->
-    console.log "name: #{@name}\nx: #{@point.x}, y: #{@point.y}\nhp: #{@hp}"
+    console.log "name: #{@name}\nx: #{@point.x}, y: #{@point.y}\nhp: #{@hp} direction: #{@direction}"
