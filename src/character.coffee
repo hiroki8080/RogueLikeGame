@@ -9,12 +9,18 @@ class Character
     @dungeon = options.dungeon
     @direction = Direction.DOWN
     @sprite = options.sprite
+    @isOpenMenu = false
     window.addEventListener('keydown', @bindEvent, true)
   bindEvent: (e) =>
     @move(e.keyCode)
     switch e.keyCode
       when Key.space
-        @openMenu(1)
+        if @isOpenMenu == false
+          @isOpenMenu = true
+#          @openMenu(1)
+        else
+          @isOpenMenu = false
+        console.log(@isOpenMenu)
     @logStatus()
   update: ->
     @sprite.sourceOffsetY = @direction
@@ -116,6 +122,7 @@ class Character
       columnPoints.push(rowPoints)
     columnPoints
   openMenu: ->
+    @isOpenMenu = true;
     console.log("openMenu")
   logStatus: ->
     console.log "name: #{@name}\nx: #{@point.x}, y: #{@point.y}\nhp: #{@hp} direction: #{@direction}"

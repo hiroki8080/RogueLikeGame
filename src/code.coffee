@@ -92,10 +92,18 @@ class App
     img.src = image
 
   printStatus: ->
-    @statusCtx.clearRect(0, 0, 660, 60)
-    @statusCtx.strokeText("HP:" + @player.hp, 0, 10)
-    @statusCtx.strokeText("X:" + @player.point.x, 100, 10)
-    @statusCtx.strokeText("Y:" + @player.point.y, 200, 10)
+    if @player.isOpenMenu == true
+      @statusCtx.clearRect(0, 0, 660, 60)
+      @statusCtx.fillStyle = '#D0A869';
+      @statusCtx.fillRect(1, 1, 600, 40)
+      @statusCtx.strokeText("[" + @player.name + "]", 0, 10)
+      @statusCtx.strokeText("HP:" + @player.hp, 0, 20)
+      @statusCtx.strokeText("攻:" + @player.attack, 60, 20)
+      @statusCtx.strokeText("防:" + @player.deffense, 100, 20)
+      @statusCtx.strokeText("X:" + @player.point.x, 150, 20)
+      @statusCtx.strokeText("Y:" + @player.point.y, 200, 20)
+    else
+      @statusCtx.clearRect(0, 0, 660, 60)
 
 init =->
   window.rogue = new App()
