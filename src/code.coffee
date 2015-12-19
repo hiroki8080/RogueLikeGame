@@ -5,9 +5,11 @@ class App
 
   constructor: ->
     @statusCanvas = document.getElementById 'status'
+    @itemCanvas = document.getElementById 'item'
     @canvas = document.getElementById 'main'
     @ctx = @canvas.getContext '2d'
     @statusCtx = @statusCanvas.getContext '2d'
+    @itemCtx = @itemCanvas.getContext '2d'
     @dungeon = new Dungeon(64)
     startPosition = @dungeon.searchRoad()
     playerImg = new Image()
@@ -102,8 +104,17 @@ class App
       @statusCtx.strokeText("防:" + @player.deffense, 100, 20)
       @statusCtx.strokeText("X:" + @player.point.x, 150, 20)
       @statusCtx.strokeText("Y:" + @player.point.y, 200, 20)
+
+      @itemCtx.clearRect(0, 0, 100, 300)
+      @itemCtx.fillStyle = '#D0A869';
+      @itemCtx.fillRect(0, 0, 100, 300)
+      @itemCtx.strokeText(">", 0, @player.itemIndex*10)
+      for item, index in @player.items
+        @itemCtx.strokeText(item, 10, (index+1)*10)
+
     else
       @statusCtx.clearRect(0, 0, 660, 60)
+      @itemCtx.clearRect(0, 0, 100, 300)
 
 init =->
   window.rogue = new App()
