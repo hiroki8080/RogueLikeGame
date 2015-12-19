@@ -73,7 +73,6 @@ class Character
       when Chip.road
         return true
       else
-        document.getElementById("sound1").play()
         return false
   isPlayer: ->
     if @type == Chip.player
