@@ -7,7 +7,7 @@
     "url": "git+https://github.com/hiroki8080/RogueLikeGame.git"
   },
   "scripts": {
-    "build": "cat *.coffee | $(npm bin)/coffee --compile --stdio > app.js",
+    "build": "cat src/*.coffee | $(npm bin)/coffee --compile --stdio > app.js",
     "aaa": "echo 'hoge'"
   },
   "devDependencies": {
