@@ -10,17 +10,23 @@ class Character
     @direction = Direction.DOWN
     @sprite = options.sprite
     @isOpenMenu = false
+    @items = ['つるはし', '薬草', '毒消し草']
+    @equipment = ""
+    @itemIndex = 1
+    @itemMaxSize = 5
     window.addEventListener('keydown', @bindEvent, true)
   bindEvent: (e) =>
-    @move(e.keyCode)
-    switch e.keyCode
-      when Key.space
-        if @isOpenMenu == false
-          @isOpenMenu = true
-#          @openMenu(1)
-        else
-          @isOpenMenu = false
-        console.log(@isOpenMenu)
+    if @isOpenMenu == false
+      @move(e.keyCode)
+      switch e.keyCode
+        when Key.space
+          if @isOpenMenu == false
+            @isOpenMenu = true
+          else
+            @isOpenMenu = false
+          console.log(@isOpenMenu)
+    else
+      @itemMove(e.keyCode)
     @logStatus()
   update: ->
     @sprite.sourceOffsetY = @direction
@@ -120,8 +126,20 @@ class Character
         rowPoints.push(new Point(x, y))
       columnPoints.push(rowPoints)
     columnPoints
-  openMenu: ->
-    @isOpenMenu = true;
-    console.log("openMenu")
+  itemMove: (keyCode) ->
+    switch keyCode
+      when Key.up
+        if @itemIndex != 1
+          @itemIndex = @itemIndex - 1
+      when Key.down
+        if @itemIndex != 5
+          @itemIndex = @itemIndex + 1
+      when Key.left
+        @isOpenMenu = false
+      when Key.right
+        @logStatus()
+      when Key.space
+        @isOpenMenu = false
+
   logStatus: ->
     console.log "name: #{@name}\nx: #{@point.x}, y: #{@point.y}\nhp: #{@hp} direction: #{@direction}"
