@@ -104,6 +104,7 @@ class App
       @statusCtx.strokeText("防:" + @player.deffense, 100, 20)
       @statusCtx.strokeText("X:" + @player.point.x, 150, 20)
       @statusCtx.strokeText("Y:" + @player.point.y, 200, 20)
+      @statusCtx.strokeText("万歩計:" + @player.steps, 250, 20)
 
       @itemCtx.clearRect(0, 0, 100, 300)
       @itemCtx.fillStyle = '#D0A869';

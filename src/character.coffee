@@ -5,6 +5,7 @@ class Character
     @hp = options.hp || 20
     @attack = options.attack || 3
     @deffense = options.deffense || 1
+    @steps = 0
     @type = options.type || Chip.enemy1
     @dungeon = options.dungeon
     @direction = Direction.DOWN
@@ -17,8 +18,10 @@ class Character
     window.addEventListener('keydown', @bindEvent, true)
   bindEvent: (e) =>
     if @isOpenMenu == false
-      @move(e.keyCode)
       switch e.keyCode
+        when Key.up, Key.down, Key.left, Key.right
+          @move(e.keyCode)
+          @steps++
         when Key.space
           if @isOpenMenu == false
             @isOpenMenu = true
